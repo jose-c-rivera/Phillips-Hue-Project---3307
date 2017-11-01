@@ -7,6 +7,7 @@
 #include <Wt/WImage>
 #include <Wt/WCssDecorationStyle>
 #include <Wt/WColor>
+#include "userAccount.C"
 
 // c++0x only, for std::bind
 // #include <functional>
@@ -31,7 +32,7 @@ HueProject::HueProject(const WEnvironment& env)
   setTitle("Hue Project - Team 9");                               // application title
 
   WCssDecorationStyle *menu = new WCssDecorationStyle();
-  menu->setBackgroundImage("https://www.xmple.com/wallpaper/black-purple-gradient-linear-1920x1080-c2-000000-9370db-a-105-f-14.svg");
+ // menu->setBackgroundImage("https://www.xmple.com/wallpaper/black-purple-gradient-linear-1920x1080-c2-000000-9370db-a-105-f-14.svg");
 
   root()->addWidget(new WText("Hue Project - Team 09"));  // show some text
 
