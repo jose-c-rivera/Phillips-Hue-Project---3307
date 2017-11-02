@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <string>
 #include "bridge.C"
+#include "passEncrypt.h"
 
 using namespace std;
 

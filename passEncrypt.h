@@ -16,6 +16,7 @@ string tempPass;
 string hashPass(string input_string);
 int comparePass(string input_string, string stored_string);
 
+//This site will help with manipulating a string in C++ : https://cal-linux.com/tutorials/strings.html
 string hashPass(string input_string){
 /*
 Implementation will go here
