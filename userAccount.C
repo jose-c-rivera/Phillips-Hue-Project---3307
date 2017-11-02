@@ -6,6 +6,7 @@
 
 #include <stdlib.h>
 #include <string>
+#include "bridge.C"
 
 using namespace std;
 
@@ -16,6 +17,7 @@ private:
    string last_name = "[undefined]";
    string email = "[undefined]";
    string password = "[undefined]";
+  //Bridge user_bridges[10];
 
 public:
 
@@ -67,5 +69,19 @@ string setPassword(string input_pass){
 
 }
 
-};
+/*
+int addBridge(Bridge input_bridge){
 
+   for(int i=0; i<array_size(user_bridges); i++){
+
+      if(user_bridges[i] == NULL){
+         user_bridges[i] = input_bridge;
+         return 0;
+      }
+      else continue;   
+   }
+   return 1; //Case if Bridge Array is full
+}
+*/
+
+};

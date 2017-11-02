@@ -21,6 +21,7 @@ public:
   HueProject(const WEnvironment& env);
 
 private:
+  WLineEdit *nameEdit_;
   WText *greeting_;
 
   void greet();
@@ -31,10 +32,20 @@ HueProject::HueProject(const WEnvironment& env)
 {
   setTitle("Hue Project - Team 9");                               // application title
 
-  WCssDecorationStyle *menu = new WCssDecorationStyle();
+  WCssDecorationStyle* menu = new WCssDecorationStyle();
  // menu->setBackgroundImage("https://www.xmple.com/wallpaper/black-purple-gradient-linear-1920x1080-c2-000000-9370db-a-105-f-14.svg");
 
-  root()->addWidget(new WText("Hue Project - Team 09"));  // show some text
+  root()->addWidget(new WText("Please enter your first name:"));  // show some text
+
+  //root()->addWidget(std:make_unique<Wt::WBreak>());
+  //nameEdit_ = root()->addWidget(std::make_unique<Wt::WLineEdit>());
+  
+
+  User_Account* trial = new User_Account;
+  trial->setFirstName("Jose");
+  trial->setLastName("Rivera");
+  root()->addWidget(new WText("Hi, this is " + trial->getFirstName() + " " + trial->getLastName() ));
+
 
 }
 
