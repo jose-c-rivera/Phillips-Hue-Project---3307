@@ -4,23 +4,36 @@
  * Language: C++
 */
 
+#include <Wt/Dbo/Dbo>
+#include <Wt/Dbo/backend/Sqlite3>
 #include <stdlib.h>
 #include <string>
-#include "bridge.C"
-#include "passEncrypt.h"
+//#include "bridge.C"
+//#include "passEncrypt.h"
 
 using namespace std;
+namespace dbo = Wt::Dbo;
 
 class User_Account{
 
-private:
-   string first_name = "[undefined]";
-   string last_name = "[undefined]";
-   string email = "[undefined]";
-   string password = "[undefined]";
+public:
+   string first_name;
+   string last_name;
+   string email;
+   string password;
   //Bridge user_bridges[10];
 
-public:
+template<class Action>
+   void persist(Action& a)
+{
+      dbo::field(a, first_name, "first_name");
+      dbo::field(a, last_name, "last_name");
+      dbo::field(a, email, "email");
+      dbo::field(a, password, "password");
+  }
+
+
+
 
 string getFirstName(){
 
