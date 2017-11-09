@@ -8,7 +8,9 @@
 #include <Wt/WText>
 #include <Wt/WImage>
 #include <Wt/WCssDecorationStyle>
+#include <Wt/WTemplate>
 #include <Wt/WColor>
+#include <Wt/WString>
 #include <string>
 #include "database.C"
 
@@ -18,6 +20,7 @@ using namespace Wt;
 class HueProject : public WApplication
 {
 public:
+  Database* session_database = new Database();
   HueProject(const WEnvironment& env);
 
 private:
@@ -36,9 +39,7 @@ HueProject::HueProject(const WEnvironment& env)
     root()->setStyleClass("main");
     setTitle("Hue Project - Team 9");
 
-    Database *session_database = new Database();
-
-    session_database->registerUser("Jose", "Rivera", "jrivera4@uwo.ca", "SeCrEt");
+    //session_database->registerUser("Jose", "Rivera", "jrivera4@uwo.ca", "SeCrEt");
 
     //Header container and information
     WContainerWidget *header = new WContainerWidget();
@@ -106,14 +107,26 @@ HueProject::HueProject(const WEnvironment& env)
     regUser->addWidget(regPassConfirm);
     regUser->addWidget(new WText("<p></p>"));
     content->addWidget(regUser);
+	WString field1 = regFName->text();
+	WString field2 = regLName->text();
+	WString field3 = regEmail->text();
+	WString field4 = regPass->text();
 
     root()->addWidget(header);
     root()->addWidget(content);
 
     WPushButton *buttonReg = new WPushButton("Register", regUser);              
     buttonReg->setMargin(0, Left); 
-}
+    buttonReg->clicked().connect(std::bind([=]() { 
+         session_database->registerUser(regFName->text().toUTF8(),
+					regLName->text().toUTF8(),
+					regEmail->text().toUTF8(),
+					regPass->text().toUTF8());
+   }));
+   buttonReg->clicked().connect(buttonReg, &WPushButton::disable);
 
+
+}
 ////////////////////////////////////////////////MAIN APP//////////////////////////////////////////
 
 WApplication *createApplication(const WEnvironment& env)
@@ -123,7 +136,6 @@ WApplication *createApplication(const WEnvironment& env)
 
 int main(int argc, char **argv)
 {
-//run();
  return WRun(argc, argv, &createApplication);
 }
 

@@ -18,7 +18,6 @@ class Database{
 
 public:
 
-
 void registerUser(string first, string last, string email, string password){
 
   dbo::backend::Sqlite3 sqlite3("userAccounts.db");
