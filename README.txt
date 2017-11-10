@@ -13,6 +13,11 @@ Group Members:
 	Steven Crossman
 	Jose Rivera
 
+## Build Project
+To build and compile our project simply enter the following commands:
+	cd team09
+	make
+
 ## Installation
 To build our web application you will need 3 important libraries:
 	Boost
