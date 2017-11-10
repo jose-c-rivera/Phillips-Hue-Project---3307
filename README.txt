@@ -2,34 +2,37 @@
 
 ## Introduction
 
->Our web application allows a user to set up an account and create, delete and modify bridges for their Phillips Hue Lighting system.
+Our web application allows a user to set up an account and create, delete and modify bridges for their Phillips Hue Lighting system.
 
 ## Team
 
-> <u><b>Group Members:</b></u> <br/>Allan Rashad Khan<br/>
-Frances Plancke<br/>Michael Davis</br>Steven Crossman<br/>Jose Rivera
+Group Members:
+	Allan Rashad Khan
+	Frances Plancke
+	Michael Davis
+	Steven Crossman
+	Jose Rivera
 
 ## Installation
+To build our web application you will need 3 important libraries:
+	Boost
+	Wt 3.8.8
+	sqlite3
 
-> To build our web application you will need 3 important libraries:<br/>Boost<br/>Wt 3.8.8<br/>sqlite3<br/>
+To install Boost type the following into the command line:
+	
+	sudo apt-get install libboost-all-dev
 
->To install <b>Boost</b> type the following into the command line:<br/><ul><li> sudo apt-get install libboost-all-dev</li></ul><br/>
+To install Wt 3.8.8 download the official release from: https://www.webtoolkit.eu/wt/download<br/> To install follow these instructions:
 
->To install <b>Wt 3.8.8</b> download the official release from: https://www.webtoolkit.eu/wt/download<br/> To install follow these instructions:<br>
+	cd wt-3.8.8
+	mkdir build; cd build
+	cmake ..
+	make
+	make -C examples
+	sudo make install
+	sudo ldconfig
 
-><ul>
-<li>cd wt-3.8.8</li>
-<li>mkdir build; cd build</li>
-<li> cmake ..</li>
-<li>make </li>
-<li>make -C examples</li>
-<li>sudo make install</li>
-<li>sudo ldconfig</li>
-</ul>
-<br/>
+To install sqlite3 type these commands into a terminal:
 
->To install <b>sqlite3</b> type these commands into a terminal:<br>
-
-><ul>
-<li>sudo apt-get install sqlite3 libsqlite3-dev</li>
-</ul>
+	sudo apt-get install sqlite3 libsqlite3-dev
