@@ -124,6 +124,10 @@ HueProject::HueProject(const WEnvironment& env)
 					regPass->text().toUTF8());
    }));
    buttonReg->clicked().connect(buttonReg, &WPushButton::disable);
+   //buttonReg->clicked().connect(buttonReg, &regUser->hide());
+   buttonReg->clicked().connect(std::bind([=]() { 
+         regUser->hide();
+   }));
 
 
 }
