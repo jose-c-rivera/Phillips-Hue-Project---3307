@@ -24,11 +24,16 @@ public:
   HueProject(const WEnvironment& env);
 
 private:
-  WLineEdit *nameEdit_;
-  WText *greeting_;
+/*
+    WAnchor		  *backToGameAnchor_;
+    WContainerWidget      *links_;
+    WStackedWidget	  *mainStack_;
+    MainWidget	          *main_;
+    UserProfileWidget     *user_;
+    BridgeWidget	  *bridge_;
 
-  void greet();
-  void registerNew();
+    Session session_;
+*/
   
 };
 
@@ -124,13 +129,51 @@ HueProject::HueProject(const WEnvironment& env)
 					regPass->text().toUTF8());
    }));
    buttonReg->clicked().connect(buttonReg, &WPushButton::disable);
-   //buttonReg->clicked().connect(buttonReg, &regUser->hide());
    buttonReg->clicked().connect(std::bind([=]() { 
          regUser->hide();
    }));
 
-
 }
+/*
+void HueProject::handleInternalPath(const std::string &internalPath)
+{
+    if(internalPath == "/Main")
+	showMain();
+    else if(internalPath == "/User")
+	showUserProfile();
+    else if(internalPath == "/Bridge")
+	showBridgeEdit();
+    else
+	WApplication::instance()->setInternalPath("/Main", true);
+}
+
+void HueProject::showMain()
+{
+    if(!main_)
+      main_ = mainStack_->addWidget(cpp14::make_unique<MainWidget>(&session_));
+    
+    mainStack_->setCurrentWidget(main_);
+    main_->update();
+}
+
+void HueProject::showUserProfile()
+{
+    if(!user_)
+      user_ = mainStack_->addWidget(cpp14::make_unique<UserProfileWidget>(&session_));
+    
+    mainStack_->setCurrentWidget(user_);
+    user_->update();
+}
+
+void HueProject::showBridgeEdit()
+{
+    if(!bridge_)
+      bridge_ = mainStack_->addWidget(cpp14::make_unique<BridgeWidget>(&session_));
+    
+    mainStack_->setCurrentWidget(bridge_);
+    bridge_->update();
+}
+*/
 ////////////////////////////////////////////////MAIN APP//////////////////////////////////////////
 
 WApplication *createApplication(const WEnvironment& env)
