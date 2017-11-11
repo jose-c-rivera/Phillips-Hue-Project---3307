@@ -41,3 +41,15 @@ To install Wt 3.8.8 download the official release from: https://www.webtoolkit.e
 To install sqlite3 type these commands into a terminal:
 
 	sudo apt-get install sqlite3 libsqlite3-dev
+
+*****************IMPORTANT****************
+
+To check the contents of the database use the following commands in the terminal:
+
+sqlite3
+
+.open userAccounts.db
+
+.dump
+
+.exit

@@ -1,3 +1,8 @@
+/*
+ * Filename: hueProject.C
+ * Purpose: Main file where our application switches views for the user
+ * Langauge: C++
+ */
 #include <Wt/WApplication>
 #include <Wt/Dbo/Dbo>
 #include <Wt/Dbo/backend/Sqlite3>
@@ -13,6 +18,7 @@
 #include <Wt/WString>
 #include <string>
 #include "database.C"
+#include "passEncrypt.C"
 
 using namespace Wt;
 
@@ -44,7 +50,10 @@ HueProject::HueProject(const WEnvironment& env)
     root()->setStyleClass("main");
     setTitle("Hue Project - Team 9");
 
-    //session_database->registerUser("Jose", "Rivera", "jrivera4@uwo.ca", "SeCrEt");
+    session_database->deleteUser("test3@uwo.ca");
+    session_database->deleteUser("uwo.CA");
+    session_database->deleteUser("frosty");
+    session_database->deleteUser("jack@");
 
     //Header container and information
     WContainerWidget *header = new WContainerWidget();
@@ -112,16 +121,13 @@ HueProject::HueProject(const WEnvironment& env)
     regUser->addWidget(regPassConfirm);
     regUser->addWidget(new WText("<p></p>"));
     content->addWidget(regUser);
-	WString field1 = regFName->text();
-	WString field2 = regLName->text();
-	WString field3 = regEmail->text();
-	WString field4 = regPass->text();
 
     root()->addWidget(header);
     root()->addWidget(content);
 
     WPushButton *buttonReg = new WPushButton("Register", regUser);              
     buttonReg->setMargin(0, Left); 
+
     buttonReg->clicked().connect(std::bind([=]() { 
          session_database->registerUser(regFName->text().toUTF8(),
 					regLName->text().toUTF8(),
