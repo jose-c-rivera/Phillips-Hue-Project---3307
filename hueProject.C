@@ -28,6 +28,7 @@ class HueProject : public WApplication
 public:
   Database* session_database = new Database();
   HueProject(const WEnvironment& env);
+  string register_insert(WLineEdit* passEdit);
 
 private:
 /*
@@ -49,11 +50,6 @@ HueProject::HueProject(const WEnvironment& env)
  useStyleSheet("css/main.css");
     root()->setStyleClass("main");
     setTitle("Hue Project - Team 9");
-
-    session_database->deleteUser("test3@uwo.ca");
-    session_database->deleteUser("uwo.CA");
-    session_database->deleteUser("frosty");
-    session_database->deleteUser("jack@");
 
     //Header container and information
     WContainerWidget *header = new WContainerWidget();
@@ -132,13 +128,21 @@ HueProject::HueProject(const WEnvironment& env)
          session_database->registerUser(regFName->text().toUTF8(),
 					regLName->text().toUTF8(),
 					regEmail->text().toUTF8(),
-					regPass->text().toUTF8());
+					register_insert(regPass));
    }));
    buttonReg->clicked().connect(buttonReg, &WPushButton::disable);
    buttonReg->clicked().connect(std::bind([=]() { 
          regUser->hide();
    }));
 
+}
+
+string HueProject::register_insert(WLineEdit* passEdit){
+
+   passEncrypt* test = new passEncrypt();
+   string pass_temp = passEdit->text().toUTF8();
+   string output_String = test->hashPass(pass_temp);
+   return output_String;
 }
 /*
 void HueProject::handleInternalPath(const std::string &internalPath)
