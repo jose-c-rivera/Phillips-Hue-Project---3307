@@ -7,18 +7,14 @@
 #include <string>
 #include <Wt/WText>
 #include <Wt/WPushButton>
-#include <Wt/WContainerWidget>
-#include "hueProject.C"
+#include <Wt/WLineEdit>
+#include "AccountWidget.h"
 
+using namespace Wt;
 
-class About : public WApplication{
+AccountWidget::AccountWidget(WContainerWidget *parent)
+        : WContainerWidget(parent){
 
-	public:
-		About(const WEnvironment& aboutEnv);	
-
-};
-About::About(const WEnvironment& aboutEnv): WApplication(aboutEnv){
-	setTitle("About");
 
 	WLineEdit *firstName = new WLineEdit();
 	firstName ->setPlaceholderText("Please enter your new First Name");
@@ -55,7 +51,7 @@ About::About(const WEnvironment& aboutEnv): WApplication(aboutEnv){
 	Info -> addWidget(new WText("Current Password: Placeholder"));
 	Info -> addWidget(password);
 	Info -> addWidget(buttonPassword);
-
+/*
 	buttonEmail->clicked().connect(std::bind([=]() {session_database->modifyEmail("Placeholder", email->text().toUTF8());
 	}));
 	buttonFirstName->clicked().connect(std::bind([=]() {session_database->modifyFirstName("Placeholder", firstName->text().toUTF8());
@@ -66,11 +62,6 @@ About::About(const WEnvironment& aboutEnv): WApplication(aboutEnv){
 	}));
 
 	buttonDelete->clicked().connect(std::bind([=]() {session_database->deleteUser("Placeholder");
-	}));
-}
-
-WApplication *aboutApplication(const WEnvironment& aboutEnv)
-{
-  return new About(aboutEnv);
+	})); */
 }
 
