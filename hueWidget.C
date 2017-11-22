@@ -30,10 +30,6 @@ hueWidget::hueWidget(WContainerWidget *parent):
 
     Database* session_database = new Database();
 
-    WStackedWidget *mainStack = new WStackedWidget();
-    mainStack->setStyleClass("mainstack");
-    addWidget(mainStack);
-
     //Header container and information
     WContainerWidget *header = new WContainerWidget();
     header->addStyleClass("header");
@@ -115,7 +111,7 @@ hueWidget::hueWidget(WContainerWidget *parent):
 
     addWidget(header);
     addWidget(nav);
-    addWidget(content);
+
 
     WApplication::instance()->internalPathChanged().connect(this, &hueWidget::handleInternalPath);
 
@@ -132,7 +128,13 @@ hueWidget::hueWidget(WContainerWidget *parent):
     buttonReg->clicked().connect(std::bind([=]() {
         regUser->hide();
     }));
-    
+
+    mainStack = new WStackedWidget();
+    mainStack->setStyleClass("mainstack");
+    addWidget(mainStack);
+
+    mainStack->addWidget(content);
+    mainStack->setCurrentWidget(content);
 }
 
 
@@ -146,12 +148,13 @@ string hueWidget::register_insert(WLineEdit* passEdit){
 
 void hueWidget::handleInternalPath(const std::string &internalPath)
 {
-    if(internalPath == "/myAccount")
+    if(internalPath == "/myaccount")
         showMyAccount();
     //else if(internalPath == "/myBridges")
         //showMyBridges();
     else
-        WApplication::instance()->setInternalPath("/myAccount", true);
+        WApplication::instance()->setInternalPath("/", true);
+        //showLogin();
 }
 
 void hueWidget::showMyAccount()
@@ -160,7 +163,12 @@ void hueWidget::showMyAccount()
         myAccount = new AccountWidget(mainStack);
     mainStack->setCurrentWidget(myAccount);
 }
+/*
+void hueWidget::showLogin(){
+    mainStack->setCurrentWidget(content);
+}
 
-//void hueWidget::showMyBridges(){
+void hueWidget::showMyBridges(){
 
-//}
+}
+*/

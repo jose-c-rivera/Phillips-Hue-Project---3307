@@ -16,16 +16,19 @@ namespace Wt{
 }
 
 class AccountWidget;
+class TestWidget;
 
 class hueWidget : public Wt::WContainerWidget{
 public:
     hueWidget(Wt::WContainerWidget *parent = 0);
     string register_insert(Wt::WLineEdit* passEdit);
     void handleInternalPath(const std::string &internalPath);
+    void showMyTest();
 
 private:
     Wt::WStackedWidget *mainStack;
     AccountWidget *myAccount;
+    TestWidget *myTest;
     Wt::WContainerWidget *nav;
     Wt::WAnchor *myAccountAnchor;
     //Wt::WAnchor *myBridgesAnchor;
