@@ -1,0 +1,12 @@
+head{
+//background-image: url("https://www.xmple.com/wallpaper/black-purple-gradient-linear-1920x1080-c2-000000-9370db-a-105-f-14.svg");
+
+}
+
+body {
+    background-image: url("https://www.xmple.com/wallpaper/black-purple-gradient-linear-1920x1080-c2-000000-9370db-a-105-f-14.svg");
+}
+
+.greeting{
+   color: white;
+}
