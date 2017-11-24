@@ -37,13 +37,24 @@ hueWidget::hueWidget(WContainerWidget *parent):
 
     //Navigation
     WContainerWidget *nav = new WContainerWidget();
-    nav->addStyleClass("nav");
+    nav->addStyleClass("navi");
+    WContainerWidget *nav_main = new WContainerWidget();
+    nav_main->addStyleClass("navi_main");
+    nav->addWidget(nav_main);
+    WContainerWidget *nav_login = new WContainerWidget();
+    nav_login->addStyleClass("navi_login");
+    nav->addWidget(nav_login);
+    
     WAnchor *myAccountAnchor = new WAnchor("/myaccount", "My Account");
     myAccountAnchor->setLink(WLink(WLink::InternalPath, "/myaccount"));
     nav->addWidget(myAccountAnchor);
     WAnchor *myBridges = new WAnchor("/mybridges", "My Bridges");
     myBridges->setLink(WLink(WLink::InternalPath, "/mybridges"));
     nav->addWidget(myBridges);
+
+    WText *login_state = new WText("");
+    login_state->setText("Not Logged In");
+    nav_login->addWidget(login_state);
 
     //myBridgesAnchor = nav->addWidget(cpp14::make_unique<WAnchor>("/mybridges", "My Account"));
 

@@ -74,3 +74,28 @@ h2{
 .register p, h3{
     color: #222222;
 }
+
+.navi{
+	text-align: center;
+	background: #333;
+	height: 50px;
+	padding-top:30px;
+	color: white;
+}
+
+.navi a{
+	color: white;
+	text-decoration: none;
+	padding-right: 20px;
+}
+
+.navi_main{
+}
+
+.navi_login{
+	float: right;
+	margin-right: 30px;
+}
+
+
+
