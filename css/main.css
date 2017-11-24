@@ -28,7 +28,8 @@ h2{
 .header h1{
     font-size: 60px;
     -webkit-margin-before: 0;
-    text-align: center;
+    -webkit-margin-after: 0.1em;
+	text-align: center;
     color: white;
     padding-top: 20px;
 
@@ -80,6 +81,7 @@ h2{
 	background: #333;
 	height: 50px;
 	padding-top:30px;
+	margin-bottom: 20px;
 	color: white;
 }
 
@@ -90,12 +92,20 @@ h2{
 }
 
 .navi_main{
+	
 }
 
 .navi_login{
-	float: right;
-	margin-right: 30px;
+	position: absolute;
+	right: 30px;
+	top: 125px;
 }
 
+.account_container{
+	padding-top:20px; 
+	margin: 0 auto;
+	text-align: center;
+	max-width: 800px;
+}
 
 

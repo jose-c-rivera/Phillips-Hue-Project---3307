@@ -52,9 +52,16 @@ hueWidget::hueWidget(WContainerWidget *parent):
     myBridges->setLink(WLink(WLink::InternalPath, "/mybridges"));
     nav->addWidget(myBridges);
 
+    //login state
     WText *login_state = new WText("");
     login_state->setText("Not Logged In");
     nav_login->addWidget(login_state);
+
+    //logout button
+    WPushButton *logoutButton = new WPushButton();
+    logoutButton->setText("Logout");
+    logoutButton->setMargin(10, Left);
+    nav_login->addWidget(logoutButton);
 
     //myBridgesAnchor = nav->addWidget(cpp14::make_unique<WAnchor>("/mybridges", "My Account"));
 
@@ -181,5 +188,4 @@ void hueWidget::showLogin(){
 
 void hueWidget::showMyBridges(){
 
-}
-*/
+}*/

@@ -15,46 +15,50 @@ using namespace Wt;
 AccountWidget::AccountWidget(WContainerWidget *parent)
         : WContainerWidget(parent){
 
-    WText *wtest = new WText("THIS IS A TEST");
-    addWidget(wtest);
+    addStyleClass("account_container");
 
-	WLineEdit *firstName = new WLineEdit();
-	firstName->setPlaceholderText("Please enter your new First Name");
-	WPushButton *buttonFirstName = new WPushButton("Change First Name");
+    WLineEdit *firstName = new WLineEdit();
+    firstName->setPlaceholderText("First Name");
     addWidget(firstName);
+    addWidget(new WText("<p></p>"));
+    firstName->setTextSize(20);
 
 	WLineEdit *email = new WLineEdit();
-	email->setPlaceholderText("Enter your new Email");
-	WPushButton *buttonEmail = new WPushButton("Change Email"); 
+	email->setPlaceholderText("New Email");
+	WPushButton *buttonEmail = new WPushButton("Change Email");
+	addWidget(buttonEmail); 
     addWidget(email);
+    addWidget(new WText("<p></p>"));
 
 	WLineEdit *lastName = new WLineEdit();
-	lastName->setPlaceholderText("Please enter your new last name");
-	WPushButton *buttonLastName = new WPushButton("Change Last Name");
+	lastName->setPlaceholderText("New Last Name");
     addWidget(lastName);
+    WPushButton *buttonLastName = new WPushButton("Change Last Name");
+    addWidget(new WText("<p></p>"));
 
 	WLineEdit *password = new WLineEdit();
-	password->setPlaceholderText("Please enter your new password");
+	password->setPlaceholderText("new password");
 	WPushButton *buttonPassword = new WPushButton("Change Password");
     addWidget(password);
+    addWidget(new WText("<p></p>"));
 
 	WPushButton *buttonDelete = new WPushButton("Delete Account");
-
+/*
 	WContainerWidget *Info = new WContainerWidget();
 	
-	Info->addWidget(new WText("Current Email: Placeholder"));
+	Info->addWidget(new WText("Email: Placeholder"));
 	Info->addWidget(email);
 	Info->addWidget(buttonEmail);
 
-	Info->addWidget(new WText("Current First Name: Placeholder"));
+	Info->addWidget(new WText("First Name: Placeholder"));
 	Info->addWidget(firstName);
-	Info->addWidget(buttonFirstName);
+	//Info->addWidget(buttonFirstName);
 
-	Info->addWidget(new WText("Current Last Name: Placeholder"));
+	Info->addWidget(new WText("Last Name: Placeholder"));
 	Info->addWidget(lastName);
 	Info->addWidget(buttonLastName);
 
-	Info->addWidget(new WText("Current Password: Placeholder"));
+	Info->addWidget(new WText("Password: Placeholder"));
 	Info->addWidget(password);
 	Info->addWidget(buttonPassword);
 /*
