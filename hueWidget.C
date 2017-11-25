@@ -54,7 +54,7 @@ hueWidget::hueWidget(WContainerWidget *parent):
 
     //login state
     WText *login_state = new WText("");
-    login_state->setText("Not Logged In");
+    login_state->setText("Logged in as: ");
     nav_login->addWidget(login_state);
 
     //logout button
@@ -91,6 +91,12 @@ hueWidget::hueWidget(WContainerWidget *parent):
     content->addWidget(login);
     WPushButton *buttonLog = new WPushButton("Log In", login);
     buttonLog->setMargin(0, Left);
+    buttonLog->clicked().connect(std::bind([=]() {
+        LogIn(session_database,
+              username->text().toUTF8(),
+              password->text().toUTF8());
+    }));
+
 
     WLineEdit *regFName = new WLineEdit();
     regFName->setPlaceholderText("First name");
@@ -140,12 +146,10 @@ hueWidget::hueWidget(WContainerWidget *parent):
         session_database->registerUser(regFName->text().toUTF8(),
                                        regLName->text().toUTF8(),
                                        regEmail->text().toUTF8(),
-                                       register_insert(regPass));
+                                       register_hash(regPass),
+				       register_hash(regPassConfirm));
     }));
     buttonReg->clicked().connect(buttonReg, &WPushButton::disable);
-    buttonReg->clicked().connect(std::bind([=]() {
-        regUser->hide();
-    }));
 
     mainStack = new WStackedWidget();
     mainStack->setStyleClass("mainstack");
@@ -156,12 +160,24 @@ hueWidget::hueWidget(WContainerWidget *parent):
 }
 
 
-string hueWidget::register_insert(WLineEdit* passEdit){
+string hueWidget::register_hash(WLineEdit* passEdit){
 
     passEncrypt* test = new passEncrypt();
     string pass_temp = passEdit->text().toUTF8();
     string output_String = test->hashPass(pass_temp);
     return output_String;
+}
+
+void hueWidget::LogIn(Database* db, string email, string password){
+    passEncrypt* test = new passEncrypt();
+    string tempHash = test->hashPass(password);
+  
+   if(tempHash.compare(db->getUserPassword(email)) == 0){
+      handleInternalPath("/myaccount");
+      cout << "Log In: Succesful!" << endl;
+   }
+   else
+      cout << "Log In: Failed." << endl;
 }
 
 void hueWidget::handleInternalPath(const std::string &internalPath)

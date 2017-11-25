@@ -18,25 +18,25 @@ class Database{
 
 public:
 
-void registerUser(string first, string last, string email, string password){
+void registerUser(string first, string last, string email, string password, string passwordConfirm){
 
-  dbo::backend::Sqlite3 sqlite3("userAccounts.db");
-  dbo::Session session;
-  session.setConnection(sqlite3);
-  session.mapClass<User_Account>("user");
-  /*
-   * Will only use this when creating database for very first time
-   */
-  //session.createTables();
-  {
-    dbo::Transaction transaction(session);
-    User_Account *user = new User_Account();
-    user->setFirstName(first);
-    user->setLastName(last);
-    user->setEmail(email);
-    user->setPassword(password);
-    dbo::ptr<User_Account> userPtr = session.add(user);
+  if(password.compare(passwordConfirm) == 0){
+     cout << "Passwords match. User was registered" << endl;
+     dbo::backend::Sqlite3 sqlite3("userAccounts.db");
+     dbo::Session session;
+     session.setConnection(sqlite3);
+     session.mapClass<User_Account>("user");
+     {
+       dbo::Transaction transaction(session);
+       User_Account *user = new User_Account();
+       user->setFirstName(first);
+       user->setLastName(last);
+       user->setEmail(email);
+       user->setPassword(password);
+       dbo::ptr<User_Account> userPtr = session.add(user);
+     }
   }
+  else cout << "Passwords dont match! User was not registered" << endl;
 }
 
 

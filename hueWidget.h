@@ -8,6 +8,7 @@
 #include <Wt/WContainerWidget>
 #include <Wt/WLineEdit>
 #include <string>
+//#include "session.C"
 
 using namespace std;
 namespace Wt{
@@ -17,11 +18,13 @@ namespace Wt{
 
 class AccountWidget;
 class TestWidget;
+class Database;
 
 class hueWidget : public Wt::WContainerWidget{
 public:
     hueWidget(Wt::WContainerWidget *parent = 0);
-    string register_insert(Wt::WLineEdit* passEdit);
+    string register_hash(Wt::WLineEdit* passEdit);
+    void LogIn(Database* db, string email, string password);
     void handleInternalPath(const std::string &internalPath);
     void showMyTest();
 
