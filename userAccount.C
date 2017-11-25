@@ -77,7 +77,7 @@ string getPassword(){
 
 }
 
-string setPassword(string input_pass){
+void setPassword(string input_pass){
 
    password = input_pass;
 
