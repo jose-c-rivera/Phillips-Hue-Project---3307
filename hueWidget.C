@@ -6,6 +6,7 @@
 #include <Wt/WPushButton>
 #include "hueWidget.h"
 #include "AccountWidget.h"
+#include "ManageWidget.h"
 #include "database.C"
 #include "passEncrypt.C"
 
@@ -13,7 +14,8 @@ using namespace Wt;
 
 hueWidget::hueWidget(WContainerWidget *parent):
         WContainerWidget(parent),
-        myAccount(0)
+        myAccount(0),
+        manage(0)
 {
     ////////Creation of database/////////
     dbo::backend::Sqlite3 sqlite3("userAccounts.db");
@@ -48,9 +50,9 @@ hueWidget::hueWidget(WContainerWidget *parent):
     WAnchor *myAccountAnchor = new WAnchor("/myaccount", "My Account");
     myAccountAnchor->setLink(WLink(WLink::InternalPath, "/myaccount"));
     nav->addWidget(myAccountAnchor);
-    WAnchor *myBridges = new WAnchor("/mybridges", "My Bridges");
-    myBridges->setLink(WLink(WLink::InternalPath, "/mybridges"));
-    nav->addWidget(myBridges);
+    WAnchor *manage = new WAnchor("/manage", "Manage");
+    manage->setLink(WLink(WLink::InternalPath, "/manage"));
+    nav->addWidget(manage);
 
     //login state
     WText *login_state = new WText("");
@@ -62,8 +64,9 @@ hueWidget::hueWidget(WContainerWidget *parent):
     logoutButton->setText("Logout");
     logoutButton->setMargin(10, Left);
     nav_login->addWidget(logoutButton);
-
-    //myBridgesAnchor = nav->addWidget(cpp14::make_unique<WAnchor>("/mybridges", "My Account"));
+    //nav_main->hide();
+    //nav_login->hide();
+    
 
     //content container (includes the body of the page)
     WContainerWidget *content = new WContainerWidget();
@@ -187,8 +190,8 @@ void hueWidget::handleInternalPath(const std::string &internalPath)
 {
     if(internalPath == "/myaccount")
         showMyAccount();
-    //else if(internalPath == "/myBridges")
-        //showMyBridges();
+    else if(internalPath == "/manage")
+        showManage();
     else
         WApplication::instance()->setInternalPath("/", true);
         //showLogin();
@@ -200,11 +203,15 @@ void hueWidget::showMyAccount()
         myAccount = new AccountWidget(mainStack);
     mainStack->setCurrentWidget(myAccount);
 }
+
+void hueWidget::showManage(){
+    std::string test = "test";
+    if(!manage)
+        manage = new ManageWidget(test, mainStack);
+    mainStack->setCurrentWidget(manage);
+}
 /*
 void hueWidget::showLogin(){
     mainStack->setCurrentWidget(content);
 }
-
-void hueWidget::showMyBridges(){
-
-}*/
+*/

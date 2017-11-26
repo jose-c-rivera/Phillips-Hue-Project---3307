@@ -17,7 +17,7 @@ namespace Wt{
 }
 
 class AccountWidget;
-class TestWidget;
+class ManageWidget;
 class Database;
 
 class hueWidget : public Wt::WContainerWidget{
@@ -26,18 +26,16 @@ public:
     string register_hash(Wt::WLineEdit* passEdit);
     void LogIn(Database* db, string email, string password);
     void handleInternalPath(const std::string &internalPath);
-    void showMyTest();
-
 private:
     Wt::WStackedWidget *mainStack;
     AccountWidget *myAccount;
-    TestWidget *myTest;
+    ManageWidget *manage;
     Wt::WContainerWidget *nav;
     Wt::WAnchor *myAccountAnchor;
     //Wt::WAnchor *myBridgesAnchor;
 
     void showMyAccount();
-    //void showMyBridges();
+    void showManage();
 };
 
 #endif //GROUP_HUEWIDGET_H
