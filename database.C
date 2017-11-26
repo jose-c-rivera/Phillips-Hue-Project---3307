@@ -35,6 +35,7 @@ void registerUser(string first, string last, string email, string password, stri
        user->setPassword(password);
        dbo::ptr<User_Account> userPtr = session.add(user);
      }
+	//hueWidget::handleInternalPath("/myaccount");
   }
   else cout << "Passwords dont match! User was not registered" << endl;
 }

@@ -79,6 +79,7 @@ hueWidget::hueWidget(WContainerWidget *parent):
 
     WLineEdit *password = new WLineEdit();
     password->setPlaceholderText("Password");
+    password->setEchoMode(password->Password);
     password->setTextSize(20);
 
     WContainerWidget *login = new WContainerWidget();
@@ -112,10 +113,12 @@ hueWidget::hueWidget(WContainerWidget *parent):
 
     WLineEdit *regPass = new WLineEdit();
     regPass->setPlaceholderText("Password");
+    regPass->setEchoMode(regPass->Password);
     regPass->setTextSize(20);
 
     WLineEdit *regPassConfirm = new WLineEdit();
     regPassConfirm->setPlaceholderText("Confirm password");
+    regPassConfirm->setEchoMode(regPassConfirm->Password);
     regPassConfirm->setTextSize(20);
 
     WContainerWidget *regUser = new WContainerWidget();

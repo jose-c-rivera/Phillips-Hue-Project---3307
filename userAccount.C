@@ -21,7 +21,6 @@ public:
    string last_name;
    string email;
    string password;
-  //Bridge user_bridges[10];
 
 template<class Action>
    void persist(Action& a)
@@ -82,20 +81,5 @@ void setPassword(string input_pass){
    password = input_pass;
 
 }
-
-/*
-int addBridge(Bridge input_bridge){
-
-   for(int i=0; i<array_size(user_bridges); i++){
-
-      if(user_bridges[i] == NULL){
-         user_bridges[i] = input_bridge;
-         return 0;
-      }
-      else continue;   
-   }
-   return 1; //Case if Bridge Array is full
-}
-*/
 
 };
