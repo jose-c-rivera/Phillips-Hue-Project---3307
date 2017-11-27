@@ -68,7 +68,7 @@ void setLastName(string input_name){
 
 }
 
-string getEmail(){
+string getEmail() const{
 
    return email;
 
