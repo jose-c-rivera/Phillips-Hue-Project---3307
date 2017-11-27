@@ -13,6 +13,7 @@ class hueWidget;
 class AccountWidget: public Wt::WContainerWidget{
 public:
     AccountWidget(Wt::WContainerWidget *parent = 0);
+    //void update();
 
 };
 

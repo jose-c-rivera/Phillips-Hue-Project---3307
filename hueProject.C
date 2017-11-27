@@ -7,8 +7,6 @@
 #include <Wt/Dbo/Dbo>
 #include <Wt/Dbo/backend/Sqlite3>
 #include <Wt/WServer>
-#include "database.C"
-#include "passEncrypt.C"
 #include "hueWidget.h"
 
 using namespace Wt;

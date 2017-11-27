@@ -10,9 +10,11 @@
 #include <Wt/Dbo/Dbo>
 #include <Wt/Dbo/backend/Sqlite3>
 #include "userAccount.C"
+#include "passEncrypt.C"
 
 using namespace std;
 namespace dbo = Wt::Dbo;
+
 
 class Database{
 
@@ -147,8 +149,11 @@ void modifyEmail(string user_name, string new_email){
 }
 
 //Method to modify user's password
-void modifyPassword(string user_name, string pass){
+void modifyPassword(string user_name, string input_pass){
   //Should call hash function before saving
+  passEncrypt* temp = new passEncrypt();
+  string hashed_pass = temp->hashPass(input_pass);
+ 
   dbo::backend::Sqlite3 sqlite3("userAccounts.db");
   dbo::Session session;
   session.setConnection(sqlite3);
@@ -156,7 +161,7 @@ void modifyPassword(string user_name, string pass){
  {
     dbo::Transaction transaction(session);
     dbo::ptr<User_Account> mod = session.find<User_Account>().where("user_name = ?").bind(user_name);
-    mod.modify()->password = pass;
+    mod.modify()->password = hashed_pass;
  }
 }
 

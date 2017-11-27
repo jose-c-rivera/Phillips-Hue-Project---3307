@@ -4,11 +4,11 @@
 #include <Wt/WApplication>
 #include <Wt/WLineEdit>
 #include <Wt/WPushButton>
+#include <Wt/WMessageBox>
 #include "hueWidget.h"
 #include "AccountWidget.h"
 #include "ManageWidget.h"
 #include "database.C"
-#include "passEncrypt.C"
 #include "session.C"
 
 using namespace Wt;
@@ -60,7 +60,7 @@ hueWidget::hueWidget(WContainerWidget *parent):
 
     //login state
     WText *login_state = new WText("");
-    login_state->setText("Logged in as: " + currentUser);
+    login_state->setText("Logged in as:");
     nav_login->addWidget(login_state);
 
     //logout button
@@ -165,6 +165,10 @@ hueWidget::hueWidget(WContainerWidget *parent):
                                        register_hash(regPass),
 				       register_hash(regPassConfirm));
     }));
+    buttonReg->clicked().connect(std::bind([=]() {
+              WMessageBox::show("Confirm", "Thank you for creating an account! Please Log In using your new credentials.",
+                             StandardButton::Ok);
+    }));
     buttonReg->clicked().connect(buttonReg, &WPushButton::disable);
 
     mainStack = new WStackedWidget();
@@ -190,7 +194,9 @@ void hueWidget::LogIn(Database* db, string userName, string password){
   
    if(tempHash.compare(db->getUserPassword(userName)) == 0){
       currentUser = userName;
-      handleInternalPath("/myaccount");
+      WApplication::instance()->setInternalPath("/myaccount", true);
+      showMyAccount();
+      //handleInternalPath("/myaccount");
       cout << "Log In: Succesful!" << endl;
       cout << "Current User is: " << userName << endl; 
    }
@@ -214,6 +220,7 @@ void hueWidget::showMyAccount()
     if(!myAccount)
         myAccount = new AccountWidget(mainStack);
     mainStack->setCurrentWidget(myAccount);
+    //myAccount->update();
 }
 
 void hueWidget::showManage(){
