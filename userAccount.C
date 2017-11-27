@@ -8,8 +8,6 @@
 #include <Wt/Dbo/backend/Sqlite3>
 #include <stdlib.h>
 #include <string>
-//#include "bridge.C"
-//#include "passEncrypt.h"
 
 using namespace std;
 namespace dbo = Wt::Dbo;
@@ -17,6 +15,7 @@ namespace dbo = Wt::Dbo;
 class User_Account{
 
 public:
+   string user_name;
    string first_name;
    string last_name;
    string email;
@@ -25,6 +24,7 @@ public:
 template<class Action>
    void persist(Action& a)
 {
+      dbo::field(a, user_name, "user_name");
       dbo::field(a, first_name, "first_name");
       dbo::field(a, last_name, "last_name");
       dbo::field(a, email, "email");
@@ -32,7 +32,17 @@ template<class Action>
   }
 
 
+string getUserName(){
 
+   return user_name;
+
+}
+
+void setUserName(string text){
+
+   user_name = text;
+
+}
 
 string getFirstName(){
 

@@ -16,6 +16,7 @@ using namespace Wt;
 WApplication *createApplication(const WEnvironment& env)
 {
     WApplication *hue = new WApplication(env);
+    
     hue->useStyleSheet("css/main.css");
     hue->setTitle("Hue Project - Team 9");
 

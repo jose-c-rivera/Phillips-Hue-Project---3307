@@ -9,21 +9,40 @@
 #include <Wt/WPushButton>
 #include <Wt/WLineEdit>
 #include "AccountWidget.h"
+#include "hueWidget.h"
+#include "database.C"
 
 using namespace Wt;
 
-AccountWidget::AccountWidget(WContainerWidget *parent)
-        : WContainerWidget(parent){
+extern string currentUser;
 
+AccountWidget::AccountWidget(WContainerWidget *parent)
+        : WContainerWidget(parent)
+{
     addStyleClass("account_container");
+    Database* accountPageDB = new Database();
+
+    addWidget(new WText("Username: " + currentUser));
+    addWidget(new WText("<p></p>"));
+
+    addWidget(new WText("Email: " + accountPageDB->getUserEmail(currentUser)));
+    addWidget(new WText("<p></p>"));
+
+
+    addWidget(new WText("First Name: " + accountPageDB->getUserFirstName(currentUser)));
+    addWidget(new WText("<p></p>"));
+
+
+    addWidget(new WText("Last Name: " + accountPageDB->getUserLastName(currentUser)));
+    addWidget(new WText("<p></p>"));
 
     WLineEdit *firstName = new WLineEdit();
     firstName->setPlaceholderText("First Name");
-    WPushButton *buttonFirstName = new WPushButton("Change First Name"); 
     addWidget(firstName);
+    firstName->setTextSize(20);
+    WPushButton *buttonFirstName = new WPushButton("Change First Name"); 
     addWidget(buttonFirstName);
     addWidget(new WText("<p></p>"));
-    firstName->setTextSize(20);
 
     WLineEdit *email = new WLineEdit();
     email->setPlaceholderText("New Email");
@@ -50,35 +69,27 @@ AccountWidget::AccountWidget(WContainerWidget *parent)
     password->setTextSize(20);
 
     WPushButton *buttonDelete = new WPushButton("Delete Account");
-/*
-	WContainerWidget *Info = new WContainerWidget();
-	
-	Info->addWidget(new WText("Email: Placeholder"));
-	Info->addWidget(email);
-	Info->addWidget(buttonEmail);
+    addWidget(buttonDelete);	
 
-	Info->addWidget(new WText("First Name: Placeholder"));
-	Info->addWidget(firstName);
-	//Info->addWidget(buttonFirstName);
-
-	Info->addWidget(new WText("Last Name: Placeholder"));
-	Info->addWidget(lastName);
-	Info->addWidget(buttonLastName);
-
-	Info->addWidget(new WText("Password: Placeholder"));
-	Info->addWidget(password);
-	Info->addWidget(buttonPassword);
-/*
-	buttonEmail->clicked().connect(std::bind([=]() {session_database->modifyEmail("Placeholder", email->text().toUTF8());
-	}));
-	buttonFirstName->clicked().connect(std::bind([=]() {session_database->modifyFirstName("Placeholder", firstName->text().toUTF8());
-	}));
-	buttonLastName->clicked().connect(std::bind([=]() {session_database->modifyLastName("Placeholder", lastName->text().toUTF8());
-	}));
-	buttonPassword->clicked().connect(std::bind([=]() {session_database->modifyPassword("Placeholder", password->text().toUTF8());
+	buttonFirstName->clicked().connect(std::bind([=]() {
+		accountPageDB->modifyFirstName(currentUser, 
+				//firstName->text().toUTF8()
+				"Luke");
 	}));
 
-	buttonDelete->clicked().connect(std::bind([=]() {session_database->deleteUser("Placeholder");
-	})); */
+	buttonEmail->clicked().connect(std::bind([=]() {
+		accountPageDB->modifyEmail(currentUser, 
+					   email->text().toUTF8());
+	}));
+
+	buttonLastName->clicked().connect(std::bind([=]() {accountPageDB->modifyLastName(currentUser, //lastName->text().toUTF8()
+"Skywalker");
+	}));
+	buttonPassword->clicked().connect(std::bind([=]() {accountPageDB->modifyPassword(currentUser, password->text().toUTF8());
+	}));
+
+	buttonDelete->clicked().connect(std::bind([=]() {accountPageDB->deleteUser(currentUser);
+	})); 
 }
+
 

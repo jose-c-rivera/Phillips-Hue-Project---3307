@@ -9,13 +9,17 @@
 #include "ManageWidget.h"
 #include "database.C"
 #include "passEncrypt.C"
+#include "session.C"
 
 using namespace Wt;
+
+string currentUser;
 
 hueWidget::hueWidget(WContainerWidget *parent):
         WContainerWidget(parent),
         myAccount(0),
-        manage(0)
+        manage(0),
+	content(0)
 {
     ////////Creation of database/////////
     dbo::backend::Sqlite3 sqlite3("userAccounts.db");
@@ -56,7 +60,7 @@ hueWidget::hueWidget(WContainerWidget *parent):
 
     //login state
     WText *login_state = new WText("");
-    login_state->setText("Logged in as: ");
+    login_state->setText("Logged in as: " + currentUser);
     nav_login->addWidget(login_state);
 
     //logout button
@@ -77,7 +81,7 @@ hueWidget::hueWidget(WContainerWidget *parent):
                                          "if you don't have an account, please register.</p>"));  // show some text
 
     WLineEdit *username = new WLineEdit();
-    username->setPlaceholderText("Email");
+    username->setPlaceholderText("Username");
     username->setTextSize(20);
 
     WLineEdit *password = new WLineEdit();
@@ -87,7 +91,7 @@ hueWidget::hueWidget(WContainerWidget *parent):
 
     WContainerWidget *login = new WContainerWidget();
     login->addStyleClass("login");
-    login->addWidget(new WText("<h3>Login</h3><p>Enter your username and password.</p>"));
+    login->addWidget(new WText("<h3>Login</h3><p>Enter your Username and Password.</p>"));
     login->addWidget(username);
     login->addWidget(new WText("<p></p>"));
     login->addWidget(password);
@@ -101,6 +105,9 @@ hueWidget::hueWidget(WContainerWidget *parent):
               password->text().toUTF8());
     }));
 
+    WLineEdit *regUserName = new WLineEdit();
+    regUserName->setPlaceholderText("Username");
+    regUserName->setTextSize(20);
 
     WLineEdit *regFName = new WLineEdit();
     regFName->setPlaceholderText("First name");
@@ -127,6 +134,8 @@ hueWidget::hueWidget(WContainerWidget *parent):
     WContainerWidget *regUser = new WContainerWidget();
     regUser->addStyleClass("register");
     regUser->addWidget(new WText("<h3>Register</h3><p>Fill in the form below to register.</p>"));
+    regUser->addWidget(regUserName);
+    regUser->addWidget(new WText("<p></p>"));
     regUser->addWidget(regFName);
     regUser->addWidget(new WText("<p></p>"));
     regUser->addWidget(regLName);
@@ -149,7 +158,8 @@ hueWidget::hueWidget(WContainerWidget *parent):
     buttonReg->setMargin(0, Left);
 
     buttonReg->clicked().connect(std::bind([=]() {
-        session_database->registerUser(regFName->text().toUTF8(),
+        session_database->registerUser(regUserName->text().toUTF8(),
+				       regFName->text().toUTF8(),
                                        regLName->text().toUTF8(),
                                        regEmail->text().toUTF8(),
                                        register_hash(regPass),
@@ -174,13 +184,15 @@ string hueWidget::register_hash(WLineEdit* passEdit){
     return output_String;
 }
 
-void hueWidget::LogIn(Database* db, string email, string password){
+void hueWidget::LogIn(Database* db, string userName, string password){
     passEncrypt* test = new passEncrypt();
     string tempHash = test->hashPass(password);
   
-   if(tempHash.compare(db->getUserPassword(email)) == 0){
+   if(tempHash.compare(db->getUserPassword(userName)) == 0){
+      currentUser = userName;
       handleInternalPath("/myaccount");
       cout << "Log In: Succesful!" << endl;
+      cout << "Current User is: " << userName << endl; 
    }
    else
       cout << "Log In: Failed." << endl;
@@ -194,7 +206,7 @@ void hueWidget::handleInternalPath(const std::string &internalPath)
         showManage();
     else
         WApplication::instance()->setInternalPath("/", true);
-        //showLogin();
+        showLogin();
 }
 
 void hueWidget::showMyAccount()
@@ -210,8 +222,8 @@ void hueWidget::showManage(){
         manage = new ManageWidget(test, mainStack);
     mainStack->setCurrentWidget(manage);
 }
-/*
+
 void hueWidget::showLogin(){
     mainStack->setCurrentWidget(content);
 }
-*/
+

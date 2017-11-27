@@ -6,6 +6,9 @@
 #define GROUP_ACCOUNTWIDGET_H
 
 #include <Wt/WContainerWidget>
+#include <string>
+
+class hueWidget;
 
 class AccountWidget: public Wt::WContainerWidget{
 public:
