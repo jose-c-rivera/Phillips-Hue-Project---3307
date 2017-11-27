@@ -15,10 +15,7 @@
 using namespace std;
 namespace dbo = Wt::Dbo;
 
-<<<<<<< HEAD
-=======
 typedef Wt::Dbo::collection< Wt::Dbo::ptr<User_Account> > Users;
->>>>>>> d3dd244c3eab865e2c39904b676b14b66f311157
 
 class Database{
 
