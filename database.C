@@ -15,6 +15,10 @@
 using namespace std;
 namespace dbo = Wt::Dbo;
 
+<<<<<<< HEAD
+=======
+typedef Wt::Dbo::collection< Wt::Dbo::ptr<User_Account> > Users;
+>>>>>>> d3dd244c3eab865e2c39904b676b14b66f311157
 
 class Database{
 
@@ -163,6 +167,29 @@ void modifyPassword(string user_name, string input_pass){
     dbo::ptr<User_Account> mod = session.find<User_Account>().where("user_name = ?").bind(user_name);
     mod.modify()->password = hashed_pass;
  }
+}
+
+std::vector<User_Account> userList(){
+  dbo::backend::Sqlite3 sqlite3("userAccounts.db");
+  dbo::Session session;
+  session.setConnection(sqlite3);
+  session.mapClass<User_Account>("user");
+  {
+    dbo::Transaction transaction(session);
+
+    Users allusers = session.find<User_Account>().where("email = ?").bind("email");
+    std::vector<User_Account> result;
+    for(Users::const_iterator i = allusers.begin(); i != allusers.end(); i++){
+      dbo::ptr<User_Account> user = *i;
+      result.push_back(*user);
+
+      string test = user->getEmail();
+      cout << test;
+    }
+
+    return result;
+  }
+
 }
 
 };
