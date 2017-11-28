@@ -35,19 +35,19 @@ AccountWidget::AccountWidget(WContainerWidget *parent)
     Database* accountPageDB = new Database();
 
     //Display the user that is currently logged in
-    addWidget(new WText("Username: " + currentUser));
+    addWidget(new WText("<b>Username: </b>" + currentUser));
     addWidget(new WText("<p></p>"));
 
     //Display the user's email
-    addWidget(new WText("Email: " + accountPageDB->getUserEmail(currentUser)));
+    addWidget(new WText("<b>Email: </b>" + accountPageDB->getUserEmail(currentUser)));
     addWidget(new WText("<p></p>"));
 
     //Display user's first name
-    addWidget(new WText("First Name: " + accountPageDB->getUserFirstName(currentUser)));
+    addWidget(new WText("<b>First Name: </b>" + accountPageDB->getUserFirstName(currentUser)));
     addWidget(new WText("<p></p>"));
 
     //Display user's last name
-    addWidget(new WText("Last Name: " + accountPageDB->getUserLastName(currentUser)));
+    addWidget(new WText("<b>Last Name: </b>" + accountPageDB->getUserLastName(currentUser)));
     addWidget(new WText("<p></p>"));
 
    
@@ -149,10 +149,6 @@ AccountWidget::AccountWidget(WContainerWidget *parent)
               WMessageBox::show("Confirm", "This account has been deleted.",
                              StandardButton::Ok);
 	}));
-/*
-        buttonDelete->clicked().connect(std::bind([=]() {
-		hueWidget::logout();
-	}));*/
 }
 
 

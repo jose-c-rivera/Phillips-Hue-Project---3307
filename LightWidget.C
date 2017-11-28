@@ -35,7 +35,7 @@ LightWidget::LightWidget(WContainerWidget *parent)
     layout = new Wt::WGridLayout();
 
     //CSS
-    addStyleClass("account_container");
+    addStyleClass("light_container");
 
     //Creat an Http Client to send Http requests
     client = new Wt::Http::Client(this);

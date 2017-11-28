@@ -17,8 +17,25 @@ h2{
     color: white;
 }
 
-.modify h3{
+.light_container{
+    width: 800px;
+    margin: 0 auto;
+    border: 2px solid white;
+    border-radius: 15px;
+    padding: 5px;
+}
+
+.account_container{
+    width: 350px;
+    margin: 0 auto;
+    border: 2px solid white;
+    border-radius: 15px;
+    padding: 5px;
+}
+
+.account_container h3{
     color: white;
+    text-align: center;
 }
 
 .content{

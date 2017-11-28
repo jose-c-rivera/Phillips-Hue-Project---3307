@@ -21,6 +21,24 @@ class Database{
 
 public:
 
+void registerBridge(string name, string bridge_location, string IP, string port, string user){
+
+     dbo::backend::Sqlite3 sqlite3("userAccounts.db");
+     dbo::Session session;
+     session.setConnection(sqlite3);
+     session.mapClass<Bridge>("bridgeTable");
+     {
+       dbo::Transaction transaction(session);
+       Bridge *temp_bridge = new Bridge();
+       temp_bridge->setBridgeName(name);
+       temp_bridge->setBridgeLocation(bridge_location);
+       temp_bridge->setIPAddress(IP);
+       temp_bridge->setPortNum(port);
+       temp_bridge->setUserID(user);
+       dbo::ptr<Bridge> userPtr = session.add(temp_bridge);
+     }
+}
+
 void registerUser(string userName, string first, string last, string email, string password, string passwordConfirm){
 
   if(password.compare(passwordConfirm) == 0){
@@ -39,7 +57,6 @@ void registerUser(string userName, string first, string last, string email, stri
        user->setPassword(password);
        dbo::ptr<User_Account> userPtr = session.add(user);
      }
-	//hueWidget::handleInternalPath("/myaccount");
   }
   else cout << "Passwords dont match! User was not registered" << endl;
 }

@@ -132,4 +132,23 @@ void setPortNum(string port){
    port_num = port;
 
 }
+
+/**
+ * @name: getUserID()
+ * @return: string of user ID
+ * @brief: returns User ID for the bridge
+ */
+string getUserID(){
+   return user_ID;
+}
+
+/**
+ * @name: setUserID()
+ * @param: The parmater will be the new ID for the bridge
+ * @brief: User ID for the bridge
+ */
+void setUserID(string id){
+
+   user_ID = id;
+}
 };
