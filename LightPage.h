@@ -7,9 +7,15 @@
 
 #include <Wt/WContainerWidget>
 
+class Light;
+class LightWidget;
+
 class LightPage: public Wt::WContainerWidget{
 public:
     LightPage(Wt::WContainerWidget *parent = 0);
+
+private:
+	LightWidget *lighttest;
 };
 
 
