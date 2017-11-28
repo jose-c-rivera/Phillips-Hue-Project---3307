@@ -8,7 +8,7 @@
 #include <Wt/WText>
 
 
-class Bridge;
+//class Bridge;
 
 class BridgeEdit : public Wt::WContainerWidget{
 public:
