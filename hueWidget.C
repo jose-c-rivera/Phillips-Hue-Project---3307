@@ -37,14 +37,14 @@ hueWidget::hueWidget(WContainerWidget *parent):
     }
 
     dbo::Session session_bridge;
-    session_bridge.setConnection(sqlite3);
-    session_bridge.mapClass<Bridge>("bridgeTable");
-    try{
-       session_bridge.createTables();
-       cout << "Created new table" << endl;
-    }catch(...){
-       cout << "Using existing table" << endl;
-    }
+    session_bridge.setConnection(sqlite3);
+    session_bridge.mapClass<Bridge>("bridgeTable");
+    try{
+       session_bridge.createTables();
+       cout << "Created new table" << endl;
+    }catch(...){
+       cout << "Using existing table" << endl;
+    }
 
     Database* session_database = new Database();
     ///////////////////////////////////
