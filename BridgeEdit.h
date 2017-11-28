@@ -7,17 +7,20 @@
 #include <string>
 #include <Wt/WText>
 
+
+class Bridge;
+
 class BridgeEdit : public Wt::WContainerWidget{
 public:
 	BridgeEdit(Wt::WContainerWidget *parent = 0);
 private:
-	WLineEdit *bridge_name_edit;			//Inputs
-	WLineEdit *location_edit;
-	WLineEdit *IP_address_edit;
-	WLineEdit *portnum_edit;
-	WText *blankSpace;			//Where to print info
+	Wt::WLineEdit *bridge_name_edit;			//Inputs
+	Wt::WLineEdit *location_edit;
+	Wt::WLineEdit *IP_address_edit;
+	Wt::WLineEdit *portnum_edit;
+	Wt::WText *blankSpace;			//Where to print info
 
 	void bridge_app();
-}
+};
 
 #endif //GROUP_HUEWIDGET_H
