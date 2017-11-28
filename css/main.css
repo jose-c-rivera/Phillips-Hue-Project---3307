@@ -5,7 +5,8 @@ html{
 body{
     height: 100%;
     margin: 0 auto;
-    background: linear-gradient(#ff69b4, #222222);
+    color: white;
+    background-image: url("img/background.jpg");
 }
 
 p{
@@ -15,6 +16,11 @@ p{
 h2{
     color: white;
 }
+
+.modify h3{
+    color: white;
+}
+
 .content{
     margin: 0 auto;
     max-width: 800px;
