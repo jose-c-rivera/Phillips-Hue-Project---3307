@@ -1,10 +1,19 @@
+/**
+ * @file    passEncrypt.C
+ * @Author  Fran Plancke 
+ * @date    Novemeber 2017
+ * @brief   Class for encypting and comparing strings
+ */
 #include <stdlib.h>
 #include <string>
 #include <iostream>
 #include <functional>
 using namespace std;
 
-
+/**
+ * @name: passEncrypt()
+ * @brief: Creates a passEncrypt object
+ */
 class passEncrypt{
 
 public:

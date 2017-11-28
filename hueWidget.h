@@ -19,6 +19,7 @@ namespace Wt{
 
 class AccountWidget;
 class ManageWidget;
+class LightPage;
 class Database;
 
 class hueWidget : public Wt::WContainerWidget{
@@ -33,6 +34,7 @@ private:
     Wt::WStackedWidget *mainStack;
     AccountWidget *myAccount;
     ManageWidget *manage;
+    LightPage *lights;
     WContainerWidget *content;
     WContainerWidget *nav_main;
     Wt::WText *loginState;
@@ -46,6 +48,7 @@ private:
     void showLogin();
     void showNav();
     void logout();
+    void showLights();
 };
 
 #endif //GROUP_HUEWIDGET_H

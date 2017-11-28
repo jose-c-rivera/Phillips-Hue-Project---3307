@@ -6,6 +6,7 @@
 #include "hueWidget.h"
 #include "AccountWidget.h"
 #include "ManageWidget.h"
+#include "LightPage.h"
 #include "database.C"
 #include "session.C"
 
@@ -20,7 +21,8 @@ hueWidget::hueWidget(WContainerWidget *parent):
 	content(0),
     nav_main(0),
     logoutButton(0),
-    loginState(0)
+    loginState(0),
+    lights(0)
 {
     ////////Creation of database/////////
     dbo::backend::Sqlite3 sqlite3("userAccounts.db");
@@ -58,6 +60,9 @@ hueWidget::hueWidget(WContainerWidget *parent):
     WAnchor *manage = new WAnchor("/manage", "Manage");
     manage->setLink(WLink(WLink::InternalPath, "/manage"));
     nav_main->addWidget(manage);
+    WAnchor *myLightsAnchor = new WAnchor("/lights", "Lights");
+    myLightsAnchor->setLink(WLink(WLink::InternalPath, "/lights"));
+    nav_main->addWidget(myLightsAnchor);
 
     //login state
     loginState = new WText("");
@@ -75,10 +80,6 @@ hueWidget::hueWidget(WContainerWidget *parent):
     logoutButton->clicked().connect(std::bind([=]() {
         logout();
     }));
-
-
-
-
     
     nav_main->hide();
     
@@ -225,6 +226,9 @@ void hueWidget::handleInternalPath(const std::string &internalPath)
     else if(internalPath == "/manage"){
         showManage();
     }
+    else if(internalPath == "/lights"){
+        showLights();
+    }
     else{
         WApplication::instance()->setInternalPath("/", true);
         showLogin();
@@ -262,8 +266,15 @@ void hueWidget::showNav(){
     logoutButton->show();
 }
 
+void hueWidget::showLights(){
+    if(!lights){
+        lights = new LightPage(mainStack);
+    }
+    mainStack->setCurrentWidget(lights);
+}
+
 void hueWidget::logout(){
-    mainStack->removeWidget(myAccount);
+    //mainStack->removeWidget(myAccount);
     nav_main->hide();
     logoutButton->hide();
     content->show();

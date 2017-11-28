@@ -5,7 +5,7 @@ html{
 body{
     height: 100%;
     margin: 0 auto;
-    background: linear-gradient(#69AFE5, #8864c1);
+    background: linear-gradient(#ff69b4, #222222);
 }
 
 p{
@@ -47,7 +47,6 @@ h2{
     padding-left: 10px;
     padding-bottom: 10px;
     width: 300px;
-    height: 200px;
     background-color: white;
     border: 1px solid #222;
     border-radius: 15px;
@@ -64,7 +63,6 @@ h2{
     padding-left: 10px;
     padding-bottom: 10px;
     width: 300px;
-    height: 305px;
     background-color: white;
     border: 1px solid #222;
     border-radius: 15px;
