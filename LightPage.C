@@ -11,15 +11,20 @@
 #include <Wt/WLineEdit>
 #include "LightPage.h"
 #include "database.C"
+#include "Light.C"
+#include "LightWidget.C"
 
 using namespace std;
 using namespace Wt;
 extern string currentUser;
 
-LightPage::LightPage(WContainerWidget *parent)
-        : WContainerWidget(parent){
-
-
+LightPage::LightPage(WContainerWidget *parent): 
+	WContainerWidget(parent),
+	lighttest(0)
+{
+	addStyleClass("lightPage");
+    lighttest = new LightWidget();
+    addWidget(lighttest);
 
 }
 
