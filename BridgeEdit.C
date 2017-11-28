@@ -24,14 +24,13 @@ extern string currentUser;
 BridgeEdit::BridgeEdit(WContainerWidget *parent):
 	WContainerWidget(parent)
 {
-	setTitle("Bridge Edit");						//Title
 	addWidget(new WText("Input name of the bridge: "));		//Shown Text.
-	bridge_name_edit = new WLineEdit(root());				//Text input
+	bridge_name_edit = new WLineEdit(this);				//Text input
 	bridge_name_edit->setFocus();						//F O C U S 
 	
 	//Bridge myBridge; Tried passing bridge object
 
-	WPushButton *button = new WPushButton("Set Name", root());		//Button
+	WPushButton *button = new WPushButton("Set Name", this);		//Button
 	button->setMargin(5, Left);						//Make it look fresh
 
 	addWidget(new WBreak());					//line break
@@ -42,10 +41,10 @@ BridgeEdit::BridgeEdit(WContainerWidget *parent):
 //-------------------------------------------------------------
 
 	addWidget(new WText("Input location of the bridge: "));	
-	location_edit = new WLineEdit(root());		
+	location_edit = new WLineEdit(this);		
 	location_edit->setFocus();				
 
-	WPushButton *buttonA = new WPushButton("Set Location", root());	
+	WPushButton *buttonA = new WPushButton("Set Location", this);	
 	buttonA->setMargin(5, Left);		
 
 	addWidget(new WBreak());	
@@ -55,10 +54,10 @@ BridgeEdit::BridgeEdit(WContainerWidget *parent):
 
 //-------------------------------------------------------------
 	addWidget(new WText("Input IP Address of the bridge: "));	
-	IP_address_edit = new WLineEdit(root());		
+	IP_address_edit = new WLineEdit(this);		
 	IP_address_edit->setFocus();				 
 
-	WPushButton *buttonB = new WPushButton("Set Location", root());	
+	WPushButton *buttonB = new WPushButton("Set Location", this);	
 	buttonB->setMargin(5, Left);		
 
 	addWidget(new WBreak());	
@@ -69,14 +68,14 @@ BridgeEdit::BridgeEdit(WContainerWidget *parent):
 //-------------------------------------------------------------
 
 	addWidget(new WText("Input port number of the bridge: "));		
-	portnum_edit = new WLineEdit(root());		
+	portnum_edit = new WLineEdit(this);		
 	portnum_edit->setFocus();	
 			
-	WPushButton *buttonC = new WPushButton("Set Location", root());	
+	WPushButton *buttonC = new WPushButton("Set Location",this);	
 	buttonC->setMargin(5, Left);		
 
 	addWidget(new WBreak());	
-	blankSpace = new WText(root());						//Blank and waiting to fill up
+	blankSpace = new WText(this);						//Blank and waiting to fill up
 
 	buttonC->clicked().connect(this, &BridgeEdit::bridge_app);		
 	portnum_edit->enterPressed().connect(boost::bind(&BridgeEdit::bridge_app, this));
@@ -87,7 +86,7 @@ BridgeEdit::BridgeEdit(WContainerWidget *parent):
 //Since changing one changes them all.
 //Trying to pass a Bridge object into method: unsuccessful
 void BridgeEdit::bridge_app(){
-	
+	/*
 	Bridge myBridge;					//Bridge object
 	WString convName = bridge_name_edit->text();		//Convert them into
 	WString convLoc = location_edit->text();		//Something to work with
@@ -100,8 +99,8 @@ void BridgeEdit::bridge_app(){
 	myBridge.setPortNum(convPort);
 
 	//Show it on screen for debugging
-	blankSpace->setText(myBridge.getBridgeName() + "<br />" + myBridge.getBridgeLocation()
-	 + "<br />" + myBridge.getIPAddress() + "<br />" + myBridge.getPortNum());
+	//blankSpace->setText(myBridge.getBridgeName() + "<br />" + myBridge.getBridgeLocation()
+	// + "<br />" + myBridge.getIPAddress() + "<br />" + myBridge.getPortNum());*/
 
 }
 
