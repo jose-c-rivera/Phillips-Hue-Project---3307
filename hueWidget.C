@@ -45,9 +45,9 @@ hueWidget::hueWidget(WContainerWidget *parent):
     }catch(...){
        cout << "Using existing table" << endl;
     }
-    ///////////////////////////////////
 
     Database* session_database = new Database();
+    ///////////////////////////////////
 
     //Header container and information
     WContainerWidget *header = new WContainerWidget();
@@ -73,6 +73,11 @@ hueWidget::hueWidget(WContainerWidget *parent):
     WAnchor *myLightsAnchor = new WAnchor("/lights", "Lights");
     myLightsAnchor->setLink(WLink(WLink::InternalPath, "/lights"));
     nav_main->addWidget(myLightsAnchor);
+    /*
+    WAnchor *myScheduleAnchor = new WAnchor("/schedule", "Schedule");
+    myScheduleAnchor->setLink(WLink(WLink::InternalPath, "/schedule"));
+    nav_main->addWidget(myScheduleAnchor);
+    */
 
     //login state
     loginState = new WText("");
@@ -239,6 +244,10 @@ void hueWidget::handleInternalPath(const std::string &internalPath)
     else if(internalPath == "/lights"){
         showLights();
     }
+    /*
+    else if(internalPath == "/schedule"){
+        showSchedule();
+    }*/
     else{
         WApplication::instance()->setInternalPath("/", true);
         showLogin();
@@ -282,7 +291,13 @@ void hueWidget::showLights(){
     }
     mainStack->setCurrentWidget(lights);
 }
-
+/*
+void hueWidget::showSchedule(){
+    if(!schedule){
+        schedule = new SchedulesWidget;
+    }
+}
+*/
 void hueWidget::logout(){
     //mainStack->removeWidget(myAccount);
     nav_main->hide();
