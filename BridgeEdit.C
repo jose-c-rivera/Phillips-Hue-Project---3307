@@ -14,29 +14,18 @@
 #include <Wt/WPushButton>
 #include <Wt/WText>
 #include <Wt/WCompositeWidget>
+#include "BridgeEdit.h"
 
 using namespace std;
 using namespace Wt;
 
-class BridgeWidget::BridgeWidget()
-	: WCompositeWidget()
+extern string currentUser;
+
+BridgeEdit::BridgeEdit(WContainerWidget *parent):
+	WContainerWidget(parent)
 {
-	public: 
-		bridgeEdit(const WEnvironment& env);
-	private:
-		WLineEdit *bridge_name_edit;			//Inputs
-		WLineEdit *location_edit;
-		WLineEdit *IP_address_edit;
-		WLineEdit *portnum_edit;
-
-		WText *blankSpace;			//Where to print info
-		//WText *blankSpaceA;
-	void bridge_app();
-};
-
-bridgeEdit::bridgeEdit(const WEnvironment& env) : WApplication(env) {
 	setTitle("Bridge Edit");						//Title
-	root()->addWidget(new WText("Input name of the bridge: "));		//Shown Text.
+	addWidget(new WText("Input name of the bridge: "));		//Shown Text.
 	bridge_name_edit = new WLineEdit(root());				//Text input
 	bridge_name_edit->setFocus();						//F O C U S 
 	
@@ -45,59 +34,59 @@ bridgeEdit::bridgeEdit(const WEnvironment& env) : WApplication(env) {
 	WPushButton *button = new WPushButton("Set Name", root());		//Button
 	button->setMargin(5, Left);						//Make it look fresh
 
-	root()->addWidget(new WBreak());					//line break
+	addWidget(new WBreak());					//line break
 
-	button->clicked().connect(this, &bridgeEdit::bridge_app);		//connect through with button/enter press
-	bridge_name_edit->enterPressed().connect(boost::bind(&bridgeEdit::bridge_app, this));
+	button->clicked().connect(this, &BridgeEdit::bridge_app);		//connect through with button/enter press
+	bridge_name_edit->enterPressed().connect(boost::bind(&BridgeEdit::bridge_app, this));
 
 //-------------------------------------------------------------
 
-	root()->addWidget(new WText("Input location of the bridge: "));	
+	addWidget(new WText("Input location of the bridge: "));	
 	location_edit = new WLineEdit(root());		
 	location_edit->setFocus();				
 
 	WPushButton *buttonA = new WPushButton("Set Location", root());	
 	buttonA->setMargin(5, Left);		
 
-	root()->addWidget(new WBreak());	
+	addWidget(new WBreak());	
 	
-	buttonA->clicked().connect(this, &bridgeEdit::bridge_app);		
-	location_edit->enterPressed().connect(boost::bind(&bridgeEdit::bridge_app, this));
+	buttonA->clicked().connect(this, &BridgeEdit::bridge_app);		
+	location_edit->enterPressed().connect(boost::bind(&BridgeEdit::bridge_app, this));
 
 //-------------------------------------------------------------
-	root()->addWidget(new WText("Input IP Address of the bridge: "));	
+	addWidget(new WText("Input IP Address of the bridge: "));	
 	IP_address_edit = new WLineEdit(root());		
 	IP_address_edit->setFocus();				 
 
 	WPushButton *buttonB = new WPushButton("Set Location", root());	
 	buttonB->setMargin(5, Left);		
 
-	root()->addWidget(new WBreak());	
+	addWidget(new WBreak());	
 
-	buttonB->clicked().connect(this, &bridgeEdit::bridge_app);		
-	IP_address_edit->enterPressed().connect(boost::bind(&bridgeEdit::bridge_app, this));
+	buttonB->clicked().connect(this, &BridgeEdit::bridge_app);		
+	IP_address_edit->enterPressed().connect(boost::bind(&BridgeEdit::bridge_app, this));
 
 //-------------------------------------------------------------
 
-	root()->addWidget(new WText("Input port number of the bridge: "));		
+	addWidget(new WText("Input port number of the bridge: "));		
 	portnum_edit = new WLineEdit(root());		
 	portnum_edit->setFocus();	
 			
 	WPushButton *buttonC = new WPushButton("Set Location", root());	
 	buttonC->setMargin(5, Left);		
 
-	root()->addWidget(new WBreak());	
+	addWidget(new WBreak());	
 	blankSpace = new WText(root());						//Blank and waiting to fill up
 
-	buttonC->clicked().connect(this, &bridgeEdit::bridge_app);		
-	portnum_edit->enterPressed().connect(boost::bind(&bridgeEdit::bridge_app, this));
+	buttonC->clicked().connect(this, &BridgeEdit::bridge_app);		
+	portnum_edit->enterPressed().connect(boost::bind(&BridgeEdit::bridge_app, this));
 
 
 }
 //Could just have different methods, all doing their own edits.
 //Since changing one changes them all.
 //Trying to pass a Bridge object into method: unsuccessful
-void bridgeEdit::bridge_app(){
+void BridgeEdit::bridge_app(){
 	
 	Bridge myBridge;					//Bridge object
 	WString convName = bridge_name_edit->text();		//Convert them into
