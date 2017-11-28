@@ -7,7 +7,9 @@
 
 #include <Wt/WContainerWidget>
 #include <Wt/WLineEdit>
+#include <Wt/WPushButton>
 #include <string>
+#include <Wt/WText>
 
 using namespace std;
 namespace Wt{
@@ -32,6 +34,9 @@ private:
     AccountWidget *myAccount;
     ManageWidget *manage;
     WContainerWidget *content;
+    WContainerWidget *nav_main;
+    Wt::WText *loginState;
+    Wt::WPushButton *logoutButton;
     Wt::WContainerWidget *nav;
     Wt::WAnchor *myAccountAnchor;
     //Wt::WAnchor *myBridgesAnchor;
@@ -39,6 +44,8 @@ private:
     void showMyAccount();
     void showManage();
     void showLogin();
+    void showNav();
+    void logout();
 };
 
 #endif //GROUP_HUEWIDGET_H

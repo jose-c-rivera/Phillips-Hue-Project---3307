@@ -8,6 +8,7 @@
 #include <Wt/Dbo/backend/Sqlite3>
 #include <stdlib.h>
 #include <string>
+#include "bridge.C"
 
 using namespace std;
 namespace dbo = Wt::Dbo;

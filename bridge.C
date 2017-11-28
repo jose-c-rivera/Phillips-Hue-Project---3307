@@ -4,19 +4,32 @@
  * Language: C++
 */
 
+#include <Wt/Dbo/Dbo>
+#include <Wt/Dbo/backend/Sqlite3>
+#include <stdlib.h>
 #include <string>
 
 using namespace std;
+namespace dbo = Wt::Dbo;
 
 class Bridge{
 
-private:
-   string bridge_name = "[undefined]";
-   string location = "[undefined]";
-   string IP_Address = "[undefined]";
-   int port_num = 1000;
-
 public:
+   string bridge_name;
+   string location;
+   string IP_Address;
+   int port_num = 1000;
+   string user_ID;
+
+template<class Action>
+   void persist(Action& a)
+{
+     dbo::field(a,bridge_name, "bridge_name");
+     dbo::field(a,location, "location");
+     dbo::field(a,IP_Address, "IP_Address");
+     dbo::field(a,port_num, "port_num");
+     dbo::field(a,user_ID, "user_ID");
+}
 
 string getBridgeName(){
 

@@ -1,5 +1,11 @@
-//Displays the account information
-
+/**
+ * @file    AccountWidget.C
+ * @Author  Jose Rivera <jrivera4@uwo.ca>
+ * @date    Novemeber 2017
+ * @brief   Widget that displays user account details
+ *
+ * 
+ */
 #include <Wt/WApplication>
 #include <Wt/Dbo/Dbo>
 #include <Wt/Dbo/backend/Sqlite3>
@@ -79,19 +85,15 @@ AccountWidget::AccountWidget(WContainerWidget *parent)
     modify->addWidget(new WText("<h3>Edit Info</h3><p>Use the form below to update your credentials.</p>"));
     modify->addWidget(firstName);
     modify->addWidget(buttonFirstName);
-    //modify->addWidget(new WText("  "));
     modify->addWidget(new WText("<p></p>"));
     modify->addWidget(lastName);
     modify->addWidget(buttonLastName);
-    //modify->addWidget(new WText("  "));
     modify->addWidget(new WText("<p></p>"));
     modify->addWidget(email);
     modify->addWidget(buttonEmail);
-    //modify->addWidget(new WText("  "));
     modify->addWidget(new WText("<p></p>"));
     modify->addWidget(password);
     modify->addWidget(buttonPassword);
-    //modify->addWidget(new WText("  "));
     modify->addWidget(new WText("<p></p>"));
     modify->addWidget(buttonDelete);
     addWidget(modify);
@@ -136,6 +138,10 @@ AccountWidget::AccountWidget(WContainerWidget *parent)
               WMessageBox::show("Confirm", "This account has been deleted.",
                              StandardButton::Ok);
 	}));
+/*
+        buttonDelete->clicked().connect(std::bind([=]() {
+		hueWidget::logout();
+	}));*/
 }
 
 

@@ -42,6 +42,7 @@ ManageWidget::ManageWidget(std::string currentUser, WContainerWidget *parent)
     		sLightContainer->addWidget(new WText(lightinfo));
     		lightsContainer->addWidget(sLightContainer);
     	}
+
     }
 
     addWidget(manageContainer);

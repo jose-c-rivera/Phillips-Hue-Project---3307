@@ -1,9 +1,7 @@
 #include <Wt/WAnchor>
-#include <Wt/WText>
 #include <Wt/WStackedWidget>
 #include <Wt/WApplication>
 #include <Wt/WLineEdit>
-#include <Wt/WPushButton>
 #include <Wt/WMessageBox>
 #include "hueWidget.h"
 #include "AccountWidget.h"
@@ -16,10 +14,13 @@ using namespace Wt;
 string currentUser;
 
 hueWidget::hueWidget(WContainerWidget *parent):
-        WContainerWidget(parent),
-        myAccount(0),
-        manage(0),
-	content(0)
+    WContainerWidget(parent),
+    myAccount(0),
+    manage(0),
+	content(0),
+    nav_main(0),
+    logoutButton(0),
+    loginState(0)
 {
     ////////Creation of database/////////
     dbo::backend::Sqlite3 sqlite3("userAccounts.db");
@@ -42,9 +43,9 @@ hueWidget::hueWidget(WContainerWidget *parent):
     header->addWidget(new WText("<h1>Phillips Hue Web Control App</h1>"));
 
     //Navigation
-    WContainerWidget *nav = new WContainerWidget();
+    nav = new WContainerWidget();
     nav->addStyleClass("navi");
-    WContainerWidget *nav_main = new WContainerWidget();
+    nav_main = new WContainerWidget();
     nav_main->addStyleClass("navi_main");
     nav->addWidget(nav_main);
     WContainerWidget *nav_login = new WContainerWidget();
@@ -53,27 +54,36 @@ hueWidget::hueWidget(WContainerWidget *parent):
     
     WAnchor *myAccountAnchor = new WAnchor("/myaccount", "My Account");
     myAccountAnchor->setLink(WLink(WLink::InternalPath, "/myaccount"));
-    nav->addWidget(myAccountAnchor);
+    nav_main->addWidget(myAccountAnchor);
     WAnchor *manage = new WAnchor("/manage", "Manage");
     manage->setLink(WLink(WLink::InternalPath, "/manage"));
-    nav->addWidget(manage);
+    nav_main->addWidget(manage);
 
     //login state
-    WText *login_state = new WText("");
-    login_state->setText("Logged in as:");
-    nav_login->addWidget(login_state);
+    loginState = new WText("");
+    loginState->setText("Not Logged In");
+    nav_login->addWidget(loginState);
 
     //logout button
-    WPushButton *logoutButton = new WPushButton();
+    logoutButton = new WPushButton();
     logoutButton->setText("Logout");
     logoutButton->setMargin(10, Left);
     nav_login->addWidget(logoutButton);
-    //nav_main->hide();
-    //nav_login->hide();
-    
+    logoutButton->hide();
 
+    //logout button clicked
+    logoutButton->clicked().connect(std::bind([=]() {
+        logout();
+    }));
+
+
+
+
+    
+    nav_main->hide();
+    
     //content container (includes the body of the page)
-    WContainerWidget *content = new WContainerWidget();
+    content = new WContainerWidget();
     content->addStyleClass("content");
     content->addWidget(new WText("<h2>Welcome to the Philips Hue web control app.</h2>"));
     content->addWidget(new WText("<p>The Philips Hue lighting system lets you easily control your light allowing you to set the perfect ambience for any occasion.</p><p>"
@@ -150,7 +160,7 @@ hueWidget::hueWidget(WContainerWidget *parent):
 
     addWidget(header);
     addWidget(nav);
-
+    addWidget(content);
 
     WApplication::instance()->internalPathChanged().connect(this, &hueWidget::handleInternalPath);
 
@@ -175,8 +185,6 @@ hueWidget::hueWidget(WContainerWidget *parent):
     mainStack->setStyleClass("mainstack");
     addWidget(mainStack);
 
-    mainStack->addWidget(content);
-    mainStack->setCurrentWidget(content);
 }
 
 
@@ -195,10 +203,14 @@ void hueWidget::LogIn(Database* db, string userName, string password){
    if(tempHash.compare(db->getUserPassword(userName)) == 0){
       currentUser = userName;
       WApplication::instance()->setInternalPath("/myaccount", true);
-      showMyAccount();
+      //showMyAccount();
       //handleInternalPath("/myaccount");
       cout << "Log In: Succesful!" << endl;
       cout << "Current User is: " << userName << endl; 
+      showNav();
+      WString loggedUser = "Logged in as: " + userName;
+      loginState->setText(loggedUser);
+      content->hide();
    }
    else
       cout << "Log In: Failed." << endl;
@@ -206,20 +218,30 @@ void hueWidget::LogIn(Database* db, string userName, string password){
 
 void hueWidget::handleInternalPath(const std::string &internalPath)
 {
-    if(internalPath == "/myaccount")
+    if(internalPath == "/myaccount"){
+        cout << "\n\nCalling show my account\n\n";
         showMyAccount();
-    else if(internalPath == "/manage")
+    }
+    else if(internalPath == "/manage"){
         showManage();
-    else
+    }
+    else{
         WApplication::instance()->setInternalPath("/", true);
         showLogin();
+    }
 }
 
 void hueWidget::showMyAccount()
 {
-    if(!myAccount)
+    if(!myAccount){
+        cout << "\n\ncreating new account widget\n\n";
         myAccount = new AccountWidget(mainStack);
+    }
+    cout << "\n\n";
+    cout << myAccount;
+    cout << "\n\n";
     mainStack->setCurrentWidget(myAccount);
+    mainStack->show();
     //myAccount->update();
 }
 
@@ -231,6 +253,21 @@ void hueWidget::showManage(){
 }
 
 void hueWidget::showLogin(){
-    mainStack->setCurrentWidget(content);
+    content->show();
+    mainStack->hide();
 }
 
+void hueWidget::showNav(){
+    nav_main->show();
+    logoutButton->show();
+}
+
+void hueWidget::logout(){
+    mainStack->removeWidget(myAccount);
+    nav_main->hide();
+    logoutButton->hide();
+    content->show();
+    loginState->setText("Not Logged In");
+    WApplication::instance()->setInternalPath("/", true);
+    WApplication::instance()->redirect("http://localhost:8080");
+}
