@@ -7,7 +7,8 @@
 #include <Wt/Http/Response>
 #include <Wt/WButtonGroup>
 #include <Wt/WGridLayout>
-
+#include "deleteScheduleWidget.h"
+#include "SchedulesEdit.h"
 #include "SchedulesWidget.h"
 
 using namespace std;
@@ -16,7 +17,9 @@ using namespace Wt;
 //extern currentUser;
 
 SchedulesWidget::SchedulesWidget(WContainerWidget *parent)
-	: WContainerWidget(parent)
+	: WContainerWidget(parent),
+	deleteSchedule(0),
+	editSchedule(0)
 {
 
 	WGridLayout *layout = new WGridLayout();
@@ -138,9 +141,16 @@ SchedulesWidget::SchedulesWidget(WContainerWidget *parent)
 
 	WPushButton *finalButton = new WPushButton("Create Schedule", this);
 	layout->addWidget(finalButton, 11,0);
+	
+	finalButton->clicked().connect(this,&SchedulesWidget::schedule_SET);
+
+	editSchedule = new SchedulesEdit(this);
+	layout->addWidget(editSchedule, 12, 0);
+
+	deleteSchedule = new DeleteScheduleWidget(this);
+	layout->addWidget(deleteSchedule, 13, 0);
 	setLayout(layout);
 
-	finalButton->clicked().connect(this,&SchedulesWidget::schedule_SET);
 }
 
 void SchedulesWidget::schedule_SET(){

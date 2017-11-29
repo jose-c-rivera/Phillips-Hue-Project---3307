@@ -24,11 +24,22 @@
 #include <Wt/WString>
 #include <Wt/WSelectionBox>
 #include <Wt/WGridLayout>
+#include <Wt/WGroupBox>
+#include <Wt/WButtonGroup>
+#include <Wt/WRadioButton>
+#include <Wt/WBreak>
 
 #include "LightWidget.h"
 
 using namespace Wt;
 
+/**
+ * LightWidget()
+ *
+ * Constructor for a LightWidget
+ *
+ * @param parent the parent container
+ */
 LightWidget::LightWidget(WContainerWidget *parent)
         : WContainerWidget(parent){
 
@@ -103,6 +114,39 @@ LightWidget::LightWidget(WContainerWidget *parent)
 
     setLayout(layout);
 
+    //Themes
+    enum Theme { None = 1, Christmas = 2, Halloween = 3, Easter = 4 };
+    // use a group box as widget container for 4 radio buttons, with a title
+    Wt::WGroupBox *container = new Wt::WGroupBox("Theme:");
+    // use a button group to logically group the 3 options
+    group = new Wt::WButtonGroup(this);
+
+    Wt::WRadioButton *button;
+
+    button = new Wt::WRadioButton("No Theme", container);
+    new Wt::WBreak(container);
+    group->addButton(button, None);
+    group->button(None)->checked().connect(this, &LightWidget::changeTheme);
+
+    button = new Wt::WRadioButton("Christmas", container);
+    new Wt::WBreak(container);
+    group->addButton(button, Christmas);
+    group->button(Christmas)->checked().connect(this, &LightWidget::changeTheme);
+
+    button = new Wt::WRadioButton("Halloween", container);
+    new Wt::WBreak(container);
+    group->addButton(button, Halloween);
+    group->button(Halloween)->checked().connect(this, &LightWidget::changeTheme);
+
+    button = new Wt::WRadioButton("Easter", container);
+    new Wt::WBreak(container);
+    group->addButton(button, Easter);
+    group->button(Easter)->checked().connect(this, &LightWidget::changeTheme);
+
+    group->setCheckedButton(group->button(None));
+
+    layout->addWidget(container, 1, 5);
+
     /* Get the info for all of the lights for the bridge */
     client->done().connect(boost::bind(&LightWidget::getLights, this, _1, _2));
     if (client->get("http://localhost:8000/api/newdeveloper/lights")) {
@@ -114,6 +158,15 @@ LightWidget::LightWidget(WContainerWidget *parent)
     }
 }
 
+/**
+ * getLights()
+ *
+ * This function processes a response from a GET call to the hue bridge.
+ * It identifies all of the lights for a given bridge.
+ *
+ * @param err
+ * @param response the response from the GET call.
+ */
 void LightWidget::getLights(boost::system::error_code err, const Wt::Http::Message& response) {
 
     if (!err && response.status() == 200) {
@@ -139,26 +192,6 @@ void LightWidget::getLights(boost::system::error_code err, const Wt::Http::Messa
             bool reachable = lightState.get("reachable").toBool();
             std::string name = tempObject.get("name");
 
-            std::cout << "ITERATION " << light << std::endl;
-
-            if (result.contains(light)) {
-                std::cout << "RESULT CONTAINS " << light << std::endl;
-                std::cout << "RESULT TYPE: " << result.type(light) << std::endl;
-                Json::Object tempObject = result.get(light);
-                if (tempObject.contains("name")) {
-                    std::cout << "TEMP_OBJECT CONTAINS name" << std::endl;
-                    std::cout << "TEMP_OBJECT TYPE: " << tempObject.type("name") << std::endl;
-                    std::string s = tempObject.get("name");
-                    std::cout << s << std::endl;
-                }
-                else {
-                    std::cout << "TEMP_OBJECT DOES NOT CONTAIN name" << std::endl;
-                }
-            }
-            else {
-                std::cout << "RESULT DOES NOT CONTAIN 1" << std::endl;
-            }
-
             Light *temp = new Light(on, bri, hue, sat, alert, effect, reachable, name, light);
             lights[temp->getName()] = *temp;
 
@@ -178,6 +211,11 @@ void LightWidget::getLights(boost::system::error_code err, const Wt::Http::Messa
 
 }
 
+/**
+ * setBrightness()
+ *
+ * Sets the brightness of the current light based on the slider value.
+ */
 void LightWidget::setBrightness() {
 
     std::string newBrightness = std::to_string(LightWidget::briSlider->value());
@@ -193,9 +231,45 @@ void LightWidget::setBrightness() {
 
     currentLight->setBrightness(briSlider->value());
 
+    generateLightInfo();
+
     delete brightnessMessage;
 }
 
+/**
+ * setBrightness(unsigned int)
+ *
+ * Sets the brightness of the current light.
+ * Used for themes.
+ *
+ * @param brightness
+ */
+void LightWidget::setBrightness(unsigned int brightness) {
+
+    Http::Client *brightClient = new Wt::Http::Client(this);
+    std::string newBrightness = std::to_string(brightness);
+
+    Http::Message *brightnessMessage = new Http::Message();
+    brightnessMessage->addBodyText("{\"bri\":\"");
+    brightnessMessage->addBodyText(newBrightness);
+    brightnessMessage->addBodyText("\"}");
+
+    std::string url = "http://localhost:8000/api/newdeveloper/lights/" + currentLight->getID() + "/state";
+
+    brightClient->put(url, *brightnessMessage);
+
+    currentLight->setBrightness(brightness);
+
+    generateLightInfo();
+
+    delete brightnessMessage;
+}
+
+/**
+ * setHue()
+ *
+ * Sets the hue of the current light based on the slider value.
+ */
 void LightWidget::setHue() {
 
     std::string newHue = std::to_string(LightWidget::hueSlider->value());
@@ -214,6 +288,40 @@ void LightWidget::setHue() {
     delete hueMessage;
 }
 
+/**
+ * setHue(unsigned int)
+ *
+ * Sets the hue of the current light.
+ * Used for themes.
+ *
+ * @param hue
+ */
+void LightWidget::setHue(unsigned int hue) {
+
+    Http::Client *hueClient = new Wt::Http::Client(this);
+    std::string newHue = std::to_string(hue);
+
+    Http::Message *hueMessage = new Http::Message();
+    hueMessage->addBodyText("{\"hue\":\"");
+    hueMessage->addBodyText(newHue);
+    hueMessage->addBodyText("\"}");
+
+    std::string url = "http://localhost:8000/api/newdeveloper/lights/" + currentLight->getID() + "/state";
+
+    hueClient->put(url, *hueMessage);
+
+    currentLight->setHue(hue);
+
+    generateLightInfo();
+
+    delete hueMessage;
+}
+
+/**
+ * setSat()
+ *
+ * Sets the saturation of the current light based on the slider value.
+ */
 void LightWidget::setSat() {
 
     std::string newSat = std::to_string(LightWidget::satSlider->value());
@@ -229,9 +337,46 @@ void LightWidget::setSat() {
 
     currentLight->setSaturation(satSlider->value());
 
+    generateLightInfo();
+
     delete satMessage;
 }
 
+/**
+ * setSat(unsigned int)
+ *
+ * Sets the saturation of the current light.
+ * Used for themes.
+ *
+ * @param sat
+ */
+void LightWidget::setSat(unsigned int sat) {
+
+    Http::Client *satClient = new Wt::Http::Client(this);
+    std::string newSat = std::to_string(sat);
+
+    Http::Message *satMessage = new Http::Message();
+    satMessage->addBodyText("{\"sat\":\"");
+    satMessage->addBodyText(newSat);
+    satMessage->addBodyText("\"}");
+
+    std::string url = "http://localhost:8000/api/newdeveloper/lights/" + currentLight->getID() + "/state";
+
+    satClient->put(url, *satMessage);
+
+    currentLight->setSaturation(sat);
+
+    generateLightInfo();
+
+    delete satMessage;
+}
+
+/**
+ * onOff()
+ *
+ * Toggles the light on and off.
+ * Used by the on/off button.
+ */
 void LightWidget::onOff() {
 
     Http::Message *onOffMessage = new Http::Message();
@@ -255,6 +400,42 @@ void LightWidget::onOff() {
 
 }
 
+/**
+ * setOn(bool)
+ *
+ * Turns a light on or off.
+ *
+ * @param on true = on, false = off
+ */
+void LightWidget::setOn(bool on) {
+
+    Http::Client *onClient = new Wt::Http::Client(this);
+    Http::Message *onOffMessage = new Http::Message();
+
+    if (currentLight->getOn()) {
+        if (!on) {
+            onOffMessage->addBodyText("{\"on\":\"false\"}");
+            currentLight->setOn(false);
+        }
+    }
+    else {
+        if (on) {
+            onOffMessage->addBodyText("{\"on\":\"true\"}");
+            currentLight->setOn(true);
+        }
+    }
+
+    std::string url = "http://localhost:8000/api/newdeveloper/lights/" + currentLight->getID() + "/state";
+
+    onClient->put(url, *onOffMessage);
+
+}
+
+/**
+ * lightSelected()
+ *
+ * Responds to the user choosing a different light.
+ */
 void LightWidget::lightSelected() {
     currentLight = &lights[selectionBox->currentText().toUTF8()];
 
@@ -272,7 +453,115 @@ void LightWidget::lightSelected() {
     LightWidget::generateLightInfo();
 }
 
+/**
+ * generateLightInfo()
+ *
+ * Updates the display of the light attributes.
+ */
 void LightWidget::generateLightInfo() {
-    std::string s = "<p>Name: " + currentLight->getName() + "</p><p>Brightness: " + std::to_string(currentLight->getBrightness()) + "</p>";
+    std::string s = "<p>Name: " + currentLight->getName() + "</p><p>Brightness: " + std::to_string(currentLight->getBrightness()) + "</p><p>Hue: " + std::to_string(currentLight->getHue()) + "</p><p>Saturation: " + std::to_string(currentLight->getSaturation()) + "</p>";
     lightInfoMessage->setText(s);
+}
+
+/**
+ * changeTheme()
+ *
+ * Changes the current lights to a fun theme.
+ */
+void LightWidget::changeTheme() {
+
+    if (group->checkedButton()->text().toUTF8() == "Christmas") {
+
+        int count = 0;
+
+        map<string, Light>::iterator it;
+
+        for ( it = lights.begin(); it != lights.end(); it++ )
+        {
+            if ((count % 2) == 0) {
+                currentLight = &(it->second);
+                std::cout << "Current Light: " << currentLight->getName() << std::endl;
+                setOn(true);
+                setHue(0);      //red
+                setBrightness(254);
+                setSat(254);
+            }
+            else {
+                currentLight = &(it->second);
+                std::cout << "Current Light: " << currentLight->getName() << std::endl;
+                setOn(true);
+                setHue(25500);      //green
+                setBrightness(254);
+                setSat(254);
+            }
+            count++;
+        }
+    }
+    else if (group->checkedButton()->text().toUTF8() == "Easter") {
+
+        int count = 1;
+
+        map<string, Light>::iterator it;
+
+        for ( it = lights.begin(); it != lights.end(); it++ )
+        {
+            if (count == 1) {
+                currentLight = &(it->second);
+                std::cout << "Current Light: " << currentLight->getName() << std::endl;
+                setOn(true);
+                setHue(61166);      //pink
+                setBrightness(254);
+                setSat(127);
+                count = 2;
+            }
+            else if (count == 2){
+                currentLight = &(it->second);
+                std::cout << "Current Light: " << currentLight->getName() << std::endl;
+                setOn(true);
+                setHue(44782);      //light purple-y blue
+                setBrightness(254);
+                setSat(127);
+                count = 3;
+            }
+            else {
+                currentLight = &(it->second);
+                std::cout << "Current Light: " << currentLight->getName() << std::endl;
+                setOn(true);
+                setHue(25500);      //green
+                setBrightness(254);
+                setSat(127);
+                count = 1;
+            }
+        }
+    }
+    else if (group->checkedButton()->text().toUTF8() == "Halloween") {
+
+        int count = 0;
+
+        map<string, Light>::iterator it;
+
+        for ( it = lights.begin(); it != lights.end(); it++ )
+        {
+            if ((count % 2) == 0) {
+                currentLight = &(it->second);
+                std::cout << "Current Light: " << currentLight->getName() << std::endl;
+                setOn(true);
+                setHue(4733);      //orange
+                setBrightness(254);
+                setSat(254);
+            }
+            else {
+                currentLight = &(it->second);
+                std::cout << "Current Light: " << currentLight->getName() << std::endl;
+                setOn(true);
+                setHue(50972);      //dark purple
+                setBrightness(254);
+                setSat(254);
+            }
+            count++;
+        }
+    }
+
+    generateLightInfo();
+
 }

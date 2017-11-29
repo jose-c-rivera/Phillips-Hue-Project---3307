@@ -12,6 +12,9 @@
 
 using namespace Wt;
 
+class DeleteScheduleWidget;
+class SchedulesEdit;
+
 class SchedulesWidget: public Wt::WContainerWidget{
 	public:
 		SchedulesWidget(Wt::WContainerWidget *parent = 0);
@@ -34,6 +37,8 @@ class SchedulesWidget: public Wt::WContainerWidget{
 		WLineEdit *time;
 		WLineEdit *bri;
 		WLineEdit *hue;
+		DeleteScheduleWidget *deleteSchedule;
+		SchedulesEdit *editSchedule;
 		WText *blank;
 	void schedule_SET();
 	//void handleHttpResponse(boost::system::error_code err, const Http::Message& response);		

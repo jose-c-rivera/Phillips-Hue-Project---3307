@@ -15,6 +15,7 @@
 #include <Wt/WSelectionBox>
 #include <Wt/WGridLayout>
 #include <Wt/WPushButton>
+#include <Wt/WButtonGroup>
 
 #include "Light.h"
 
@@ -41,6 +42,7 @@ private:
     Wt::WPushButton *onOffButton;
     Wt::WSelectionBox *selectionBox;
     Wt::WGridLayout *layout;
+    Wt::WButtonGroup *group;
 
     /* Constants */
     const unsigned int BRI_MIN = 1;
@@ -56,11 +58,16 @@ private:
     void getLightInfo(boost::system::error_code err, const Wt::Http::Message& response);
     void handleGetResponse(boost::system::error_code err, const Wt::Http::Message& response);
     void setBrightness();
+    void setBrightness(unsigned int brightness);
     void setHue();
+    void setHue(unsigned int hue);
     void setSat();
+    void setSat(unsigned int sat);
     void onOff();
+    void setOn(bool on);
     void lightSelected();
     void generateLightInfo();
+    void changeTheme();
 
 };
 
