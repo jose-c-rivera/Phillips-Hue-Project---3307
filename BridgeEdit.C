@@ -14,7 +14,9 @@
 #include <Wt/WPushButton>
 #include <Wt/WText>
 #include <Wt/WCompositeWidget>
+#include <Wt/WMessageBox>
 #include "BridgeEdit.h"
+#include "database.C"
 
 using namespace std;
 using namespace Wt;
@@ -24,61 +26,101 @@ extern string currentUser;
 BridgeEdit::BridgeEdit(WContainerWidget *parent):
 	WContainerWidget(parent)
 {
-	addWidget(new WText("Input name of the bridge: "));		//Shown Text.
-	bridge_name_edit = new WLineEdit(this);				//Text input
-	bridge_name_edit->setFocus();						//F O C U S 
+	addStyleClass("bridgeedit");
+
+        Database* bridgeDB = new Database();
+
+	addWidget(new WText("<h3>Add Bridge</h3>"));
 	
-	//Bridge myBridge; Tried passing bridge object
-
-	WPushButton *button = new WPushButton("Set Name", this);		//Button
-	button->setMargin(5, Left);						//Make it look fresh
-
-	addWidget(new WBreak());					//line break
-
-	button->clicked().connect(this, &BridgeEdit::bridge_app);		//connect through with button/enter press
-	bridge_name_edit->enterPressed().connect(boost::bind(&BridgeEdit::bridge_app, this));
+	WLineEdit *bridgeName = new WLineEdit(this);				
+	bridgeName->setPlaceholderText("Bridge Name");
+	bridgeName->setFocus();						
+	addWidget(new WText("<p></p>"));
 
 //-------------------------------------------------------------
 
+	WLineEdit *bridgeLocation = new WLineEdit(this);			
+	bridgeLocation->setPlaceholderText("Bridge Location");
+	addWidget(new WText("<p></p>"));	
+
+//-------------------------------------------------------------
+
+	WLineEdit *bridgeIP = new WLineEdit(this);		
+	bridgeIP->setPlaceholderText("Bridge IP");				 
+	addWidget(new WText("<p></p>"));
+
+//-------------------------------------------------------------
+	
+	WLineEdit *bridgePort = new WLineEdit(this);		
+	bridgePort->setPlaceholderText("Bridge Port");
+	addWidget(new WText("<p></p>"));
+
+	WPushButton *addBridge = new WPushButton("Add Port",this);	
+	addBridge->setMargin(5, Left);	
+
+
+        addBridge->clicked().connect(std::bind([=]() {
+		bridgeDB->registerBridge(
+			bridgeName->text().toUTF8(),
+ 			bridgeLocation->text().toUTF8(),
+ 			bridgeIP->text().toUTF8(),
+ 			bridgePort->text().toUTF8(),
+ 			currentUser);
+        }));
+
+
+
+
+	addWidget(new WText("<h3>Edit Bridge</h3>"));
+
+	addWidget(new WText("Input name of bridge to Edit: "));	
+	WLineEdit* bridge_focus = new WLineEdit(this);
+	
+	addWidget(new WText("<p></p>"));
 	addWidget(new WText("Input location of the bridge: "));	
-	location_edit = new WLineEdit(this);		
-	location_edit->setFocus();				
+	location_edit = new WLineEdit(this);						
 
-	WPushButton *buttonA = new WPushButton("Set Location", this);	
-	buttonA->setMargin(5, Left);		
-
-	addWidget(new WBreak());	
+	WPushButton *button_location_edit = new WPushButton("Edit Location", this);	
+	button_location_edit->setMargin(5, Left);			
 	
-	buttonA->clicked().connect(this, &BridgeEdit::bridge_app);		
-	location_edit->enterPressed().connect(boost::bind(&BridgeEdit::bridge_app, this));
+        button_location_edit->clicked().connect(std::bind([=]() {
+		bridgeDB->modifyBLocation(
+			bridge_focus->text().toUTF8(), 
+			location_edit->text().toUTF8());
+        }));
 
 //-------------------------------------------------------------
+	addWidget(new WText("<p></p>"));
 	addWidget(new WText("Input IP Address of the bridge: "));	
 	IP_address_edit = new WLineEdit(this);		
 	IP_address_edit->setFocus();				 
 
-	WPushButton *buttonB = new WPushButton("Set Location", this);	
-	buttonB->setMargin(5, Left);		
+	WPushButton *button_address_edit = new WPushButton("Edit IP", this);	
+	button_address_edit->setMargin(5, Left);			
 
-	addWidget(new WBreak());	
+	button_address_edit->clicked().connect(std::bind([=]() {
+		bridgeDB->modifyBAddress(
+			bridge_focus->text().toUTF8(), 
+			IP_address_edit->text().toUTF8());
+        }));
 
-	buttonB->clicked().connect(this, &BridgeEdit::bridge_app);		
-	IP_address_edit->enterPressed().connect(boost::bind(&BridgeEdit::bridge_app, this));
 
 //-------------------------------------------------------------
-
+	addWidget(new WText("<p></p>"));
 	addWidget(new WText("Input port number of the bridge: "));		
 	portnum_edit = new WLineEdit(this);		
 	portnum_edit->setFocus();	
 			
-	WPushButton *buttonC = new WPushButton("Set Location",this);	
-	buttonC->setMargin(5, Left);		
+	WPushButton *button_portnum_edit = new WPushButton("Edit Port",this);	
+	button_portnum_edit->setMargin(5, Left);		
 
 	addWidget(new WBreak());	
-	blankSpace = new WText(this);						//Blank and waiting to fill up
 
-	buttonC->clicked().connect(this, &BridgeEdit::bridge_app);		
-	portnum_edit->enterPressed().connect(boost::bind(&BridgeEdit::bridge_app, this));
+	button_portnum_edit->clicked().connect(std::bind([=]() {
+		bridgeDB->modifyBPortNum(
+			bridge_focus->text().toUTF8(), 
+			portnum_edit->text().toUTF8());
+        }));
 
 
 }
