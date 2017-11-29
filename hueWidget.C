@@ -7,6 +7,7 @@
 #include "AccountWidget.h"
 #include "ManageWidget.h"
 #include "LightPage.h"
+#include "BridgeEdit.h"
 #include "database.C"
 #include "session.C"
 
@@ -22,7 +23,8 @@ hueWidget::hueWidget(WContainerWidget *parent):
     nav_main(0),
     logoutButton(0),
     loginState(0),
-    lights(0)
+    lights(0),
+    bridgeedit(0)
 {
     ////////Creation of database/////////
     dbo::backend::Sqlite3 sqlite3("userAccounts.db");
@@ -73,6 +75,10 @@ hueWidget::hueWidget(WContainerWidget *parent):
     WAnchor *myLightsAnchor = new WAnchor("/lights", "Lights");
     myLightsAnchor->setLink(WLink(WLink::InternalPath, "/lights"));
     nav_main->addWidget(myLightsAnchor);
+    WAnchor *myBridgeEdit = new WAnchor("/editbridges", "Edit Bridges");
+    myBridgeEdit->setLink(WLink(WLink::InternalPath, "/editbridges"));
+    nav_main->addWidget(myBridgeEdit);
+
     /*
     WAnchor *myScheduleAnchor = new WAnchor("/schedule", "Schedule");
     myScheduleAnchor->setLink(WLink(WLink::InternalPath, "/schedule"));
@@ -234,6 +240,7 @@ void hueWidget::LogIn(Database* db, string userName, string password){
 
 void hueWidget::handleInternalPath(const std::string &internalPath)
 {
+    cout << "\n\nINTERNAL PATH CHANGE\n\n";
     if(internalPath == "/myaccount"){
         cout << "\n\nCalling show my account\n\n";
         showMyAccount();
@@ -248,6 +255,9 @@ void hueWidget::handleInternalPath(const std::string &internalPath)
     else if(internalPath == "/schedule"){
         showSchedule();
     }*/
+    else if(internalPath == "/editbridges"){
+        showBridgeEdit();
+    }
     else{
         WApplication::instance()->setInternalPath("/", true);
         showLogin();
@@ -257,12 +267,8 @@ void hueWidget::handleInternalPath(const std::string &internalPath)
 void hueWidget::showMyAccount()
 {
     if(!myAccount){
-        cout << "\n\ncreating new account widget\n\n";
         myAccount = new AccountWidget(mainStack);
     }
-    cout << "\n\n";
-    cout << myAccount;
-    cout << "\n\n";
     mainStack->setCurrentWidget(myAccount);
     mainStack->show();
     //myAccount->update();
@@ -298,6 +304,15 @@ void hueWidget::showSchedule(){
     }
 }
 */
+
+void hueWidget::showBridgeEdit(){
+    cout << "\n\nShowing Bridge Edit";
+    if(!bridgeedit){
+        bridgeedit = new BridgeEdit(mainStack);
+    }
+    mainStack->setCurrentWidget(bridgeedit);
+}
+
 void hueWidget::logout(){
     //mainStack->removeWidget(myAccount);
     nav_main->hide();

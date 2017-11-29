@@ -21,6 +21,7 @@ class AccountWidget;
 class ManageWidget;
 class LightPage;
 class Database;
+class BridgeEdit;
 
 class hueWidget : public Wt::WContainerWidget{
 public:
@@ -35,6 +36,7 @@ private:
     AccountWidget *myAccount;
     ManageWidget *manage;
     LightPage *lights;
+    BridgeEdit *bridgeedit;
     WContainerWidget *content;
     WContainerWidget *nav_main;
     Wt::WText *loginState;
@@ -49,6 +51,7 @@ private:
     void showNav();
     void logout();
     void showLights();
+    void showBridgeEdit();
 };
 
 #endif //GROUP_HUEWIDGET_H
