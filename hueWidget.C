@@ -8,6 +8,7 @@
 #include "ManageWidget.h"
 #include "LightPage.h"
 #include "BridgeEdit.h"
+#include "SchedulesWidget.h"
 #include "database.C"
 #include "session.C"
 
@@ -24,7 +25,8 @@ hueWidget::hueWidget(WContainerWidget *parent):
     logoutButton(0),
     loginState(0),
     lights(0),
-    bridgeedit(0)
+    bridgeedit(0),
+    schedules(0)
 {
     ////////Creation of database/////////
     dbo::backend::Sqlite3 sqlite3("userAccounts.db");
@@ -78,6 +80,9 @@ hueWidget::hueWidget(WContainerWidget *parent):
     WAnchor *myBridgeEdit = new WAnchor("/editbridges", "Edit Bridges");
     myBridgeEdit->setLink(WLink(WLink::InternalPath, "/editbridges"));
     nav_main->addWidget(myBridgeEdit);
+    WAnchor *myScheduleAnchor = new WAnchor("/schedules", "Schedules");
+    myScheduleAnchor->setLink(WLink(WLink::InternalPath, "/schedules"));
+    nav_main->addWidget(myScheduleAnchor);
 
     /*
     WAnchor *myScheduleAnchor = new WAnchor("/schedule", "Schedule");
@@ -251,10 +256,9 @@ void hueWidget::handleInternalPath(const std::string &internalPath)
     else if(internalPath == "/lights"){
         showLights();
     }
-    /*
-    else if(internalPath == "/schedule"){
-        showSchedule();
-    }*/
+    else if(internalPath == "/schedules"){
+        showSchedules();
+    }
     else if(internalPath == "/editbridges"){
         showBridgeEdit();
     }
@@ -297,13 +301,13 @@ void hueWidget::showLights(){
     }
     mainStack->setCurrentWidget(lights);
 }
-/*
-void hueWidget::showSchedule(){
-    if(!schedule){
-        schedule = new SchedulesWidget;
+
+void hueWidget::showSchedules(){
+    if(!schedules){
+        schedules = new SchedulesWidget(mainStack);
     }
+    mainStack->setCurrentWidget(schedules);
 }
-*/
 
 void hueWidget::showBridgeEdit(){
     cout << "\n\nShowing Bridge Edit";

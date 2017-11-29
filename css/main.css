@@ -176,3 +176,12 @@ h2{
     color: white;
     text-align: center;
 }
+
+.schedules{
+    color: white;
+    width: 600px;
+    margin: 0 auto;
+    border: 2px solid white;
+    border-radius: 15px;
+    padding: 5px;
+}
