@@ -1,6 +1,6 @@
 /**
  * @file SchedulesEdit.C
- * @Authors Allan Khan
+ * @Authors Allan Khan, Mike Davis 
  * @date November 2017
  * @brief Widget for changing an already existing schedule
  */

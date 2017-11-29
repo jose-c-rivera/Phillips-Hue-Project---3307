@@ -1,3 +1,10 @@
+/**
+ * @file    HueWidget.C
+ * @Author  Jose Rivera 
+ *          Mike Davis 
+ * @date    Novemeber 2017
+ * @brief   Widget that displays login and register
+ */
 #include <Wt/WAnchor>
 #include <Wt/WStackedWidget>
 #include <Wt/WApplication>

@@ -1,6 +1,7 @@
 /**
  * @file    AccountWidget.C
  * @Author  Jose Rivera <jrivera4@uwo.ca>
+ *          Mike Davis 
  * @date    Novemeber 2017
  * @brief   Widget that displays user account details
  */

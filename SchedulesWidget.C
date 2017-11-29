@@ -1,3 +1,8 @@
+/*
+ * File: SchedulesWidget.C
+ * Author: Mike Davis, Allan Rashad Khan 
+ * 
+ */
 #include <string>
 #include <iostream>
 #include <stdlib.h>

@@ -1,4 +1,12 @@
-//Displays the account information
+/**
+ * LightPage.C
+ *
+ * Author: Fran Plancke, Mike Davis
+ *
+ * Implementation file for LightWidget.
+ *
+ * The LightWidget class allows the user to view and modify light elements.
+ */
 
 #include <vector>
 #include <Wt/WApplication>

@@ -2,6 +2,7 @@
  * File: database.C
  * Purpose: Contains methods to insert, remove and modify entries in a database
  * Language: C++
+ * Author: Jose Rivera, Mike Davis
 */
 
 #include <math.h>

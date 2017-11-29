@@ -2,6 +2,7 @@
  * File: bridge.C
  * Purpose: Class to represent a bridge
  * Language: C++
+ * Author: Mike Davis , Jose Rivera, Allan Rashad Khan
 */
 
 #include <string>
