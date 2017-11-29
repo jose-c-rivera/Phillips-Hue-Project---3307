@@ -38,7 +38,7 @@ SchedulesWidget::SchedulesWidget(WContainerWidget *parent)
 	buttonA = new WRadioButton("Lights");
 	group->addButton(buttonA, 1);
 	group->setCheckedButton(group->button(0));
-	layout->addWidget(buttonA, 0, 1);		//Potential error same grid loc
+	layout->addWidget(buttonA, 0, 2);		//Potential error same grid loc
 
 	IDtext = new WText("enter group or light ID*:");
 	layout->addWidget(IDtext, 1, 0);	
@@ -82,7 +82,7 @@ SchedulesWidget::SchedulesWidget(WContainerWidget *parent)
 	buttonA = new WRadioButton("disabled");
 	groupB->addButton(buttonA);
 	groupB->setCheckedButton(groupB->button(0));
-	layout->addWidget(buttonA, 6,1);
+	layout->addWidget(buttonA, 6,2);
 
 	WText *textdelete = new WText("Do you want schedule to autodelete?:");
 	layout->addWidget(textdelete, 7, 0);
@@ -94,7 +94,7 @@ SchedulesWidget::SchedulesWidget(WContainerWidget *parent)
 	buttonA = new WRadioButton("No");
 	groupC->addButton(buttonA);
 	groupC->setCheckedButton(groupC->button(0));
-	layout->addWidget(buttonA, 7, 1);
+	layout->addWidget(buttonA, 7, 2);
 
 	WText *texton = new WText("Turn lights:");
 	layout->addWidget(texton, 8,0);
@@ -107,7 +107,7 @@ SchedulesWidget::SchedulesWidget(WContainerWidget *parent)
 	buttonA = new WRadioButton("Off");
 	groupD->addButton(buttonA);
 	groupD->setCheckedButton(groupD->button(0));
-	layout->addWidget(buttonA, 8,1);
+	layout->addWidget(buttonA, 8,2);
 
 	briSlider->setMinimum(1);
 	briSlider->setMaximum(254);
