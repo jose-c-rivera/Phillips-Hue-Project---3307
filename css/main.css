@@ -5,7 +5,7 @@ html{
 body{
     height: 100%;
     margin: 0 auto;
-    color: white;
+    color: black;
     background-image: url("img/background.jpg");
 }
 
@@ -26,6 +26,7 @@ h2{
 }
 
 .account_container{
+    color: white;
     width: 350px;
     margin: 0 auto;
     border: 2px solid white;
@@ -122,6 +123,7 @@ h2{
 }
 
 .manageContainer{
+    color: white;
     margin: 0 auto;
     overflow: auto;
     width: 90%;
@@ -159,4 +161,27 @@ h2{
 .lightPage{
     width:800px;
     margin: 0 auto;
+}
+
+.bridgeedit{
+    color: white;
+    width: 450px;
+    margin: 0 auto;
+    border: 2px solid white;
+    border-radius: 15px;
+    padding: 5px;
+}
+
+.bridgeedit h3{
+    color: white;
+    text-align: center;
+}
+
+.schedules{
+    color: white;
+    width: 600px;
+    margin: 0 auto;
+    border: 2px solid white;
+    border-radius: 15px;
+    padding: 5px;
 }
